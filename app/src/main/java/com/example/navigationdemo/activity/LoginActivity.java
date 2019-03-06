@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     SessionManager sessionManager;
     FirebaseAuth auth;
     FirebaseUser user;
-    //SessionManager sessionManager;
+    //SessionManager1 sessionManager;
    // HashMap<String,String> user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,10 +164,10 @@ public class LoginActivity extends AppCompatActivity {
 //                                        finish();
 //                                    }catch (Exception e){
 //
-//                                        Toast.makeText(LoginActivity.this, "No email client installed", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(LoginActivity1.this, "No email client installed", Toast.LENGTH_SHORT).show();
 //                                    }
 //
-//                                    BackgroundMail.newBuilder(LoginActivity.this)
+//                                    BackgroundMail.newBuilder(LoginActivity1.this)
 //                                            .withUsername("aptulsibhai1974@gmail.com")
 //                                            .withPassword("17bellavista")
 //                                            .withMailto(to)
@@ -177,12 +177,12 @@ public class LoginActivity extends AppCompatActivity {
 //                                            .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
 //                                                @Override
 //                                                public void onSuccess() {
-//                                                    Toast.makeText(LoginActivity.this, "Mail Sent", Toast.LENGTH_SHORT).show();
+//                                                    Toast.makeText(LoginActivity1.this, "Mail Sent", Toast.LENGTH_SHORT).show();
 //                                                }
 //                                            }).withOnFailCallback(new BackgroundMail.OnFailCallback() {
 //                                        @Override
 //                                        public void onFail() {
-//                                            Toast.makeText(LoginActivity.this, "failed", Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(LoginActivity1.this, "failed", Toast.LENGTH_SHORT).show();
 //                                        }
 //                                    }).send();
 

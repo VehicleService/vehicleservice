@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseDatabase instance;
     DatabaseReference reference;
 
-//    SessionManager sessionManager;
+//    SessionManager1 sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Confirmpassword.setError("Password Should Match With Above PassWord");
                     Password.setText("");
                 }else{
-//                    sessionManager=new SessionManager(getApplicationContext());
+//                    sessionManager=new SessionManager1(getApplicationContext());
 //                    String UserName=Username.getText().toString();
 //                    String PassWord=Password.getText().toString();
 //                    sessionManager.putData(UserName,PassWord);

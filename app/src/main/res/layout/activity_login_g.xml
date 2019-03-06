@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:layout_gravity="center"
+    android:background="@color/background"
+    android:gravity="center"
+    tools:context=".GarageActivity.LoginActivityG">
+
+
+    <EditText
+        android:id="@+id/etxtEmail"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+
+        android:layout_centerHorizontal="true"
+
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter EmailAddress"
+        android:drawableLeft="@drawable/baseline_mail_black_18dp"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/etxtPassword"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/etxtEmail"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/baseline_lock_black_18dp"
+
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="Enter Password"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/etxtPassword"
+        android:layout_marginTop="40dp"
+        android:text="Submit" />
+
+    <TextView
+        android:id="@+id/txtLink_to_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtNewUser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="SignUp Or Register?"
+        android:textColor="@color/linkcolor"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/txtNewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnSubmit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/linkcolor"
+        android:text="Forgot Password?" />
+
+
+</RelativeLayout>

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+
+import com.example.navigationdemo.GarageActivity.LoginActivityG;
 import com.example.navigationdemo.R;
 
 public class DirectionActivity extends AppCompatActivity {
@@ -22,6 +24,13 @@ public class DirectionActivity extends AppCompatActivity {
                 Intent i=new Intent(DirectionActivity.this,LoginActivity.class);
                 startActivity(i);
 
+            }
+        });
+        garageowner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(DirectionActivity.this,LoginActivityG.class);
+                startActivity(i);
             }
         });
 
