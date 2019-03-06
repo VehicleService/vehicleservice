@@ -1,0 +1,104 @@
+{
+  "project_info": {
+    "project_number": "606571443406",
+    "firebase_url": "https://navigationdemo-93f9a.firebaseio.com",
+    "project_id": "navigationdemo-93f9a",
+    "storage_bucket": "navigationdemo-93f9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606571443406:android:948828e74e285686",
+        "android_client_info": {
+          "package_name": "com.example.dipesh.vehicleservicebooking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606571443406-nim4a6gbsnsqug219ge339grp5qrpp5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF9Tk-F3VVrJ6TQ-aozYlO3ZKK2ofhtkc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606571443406:android:254758f535e67a9e",
+        "android_client_info": {
+          "package_name": "com.example.garage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606571443406-nim4a6gbsnsqug219ge339grp5qrpp5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF9Tk-F3VVrJ6TQ-aozYlO3ZKK2ofhtkc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606571443406:android:0f67b59fd23955e7",
+        "android_client_info": {
+          "package_name": "com.example.navigationdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606571443406-nim4a6gbsnsqug219ge339grp5qrpp5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAF9Tk-F3VVrJ6TQ-aozYlO3ZKK2ofhtkc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
