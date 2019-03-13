@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GarageFragments.MyService"
+    android:background="@color/background">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:id="@+id/relativeSelect"
+    android:visibility="visible"
+    android:gravity="center"
+   >
+    <TextView
+        android:id="@+id/txtVehicleType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Type Of Vehicle"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"/>
+    <RadioGroup
+        android:id="@+id/rgVehicleType"
+        android:layout_below="@+id/txtVehicleType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TwoWheeler"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FourWheeler"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Both"/>
+
+    </RadioGroup>
+    <TextView
+        android:id="@+id/txtServiceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rgVehicleType"
+        android:layout_marginTop="50dp"
+        android:text="Type of Service"
+        android:textSize="20dp"/>
+    <RadioGroup
+        android:id="@+id/rgServiceType"
+        android:layout_below="@id/txtServiceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Regular"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Emergancy"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Both"/>
+
+    </RadioGroup>
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_below="@+id/rgServiceType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_marginTop="50dp"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/relativeCost"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Two Wheeler Regular Service Cost:"
+            android:id="@+id/txttr"
+            android:textSize="15dp"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter Regular Service Cost For TwoWheeler"
+            android:id="@+id/etxttr"
+            android:layout_below="@+id/txttr"
+           android:layout_marginTop="0dp"
+            android:textSize="13dp"
+            android:inputType="numberDecimal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtfr"
+            android:layout_below="@+id/etxttr"
+            android:layout_marginTop="10dp"
+            android:text="Four Wheeler Regular Service Cost:"
+            android:textSize="15dp"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtfr"
+            android:hint="Enter Regular Service Cost For FourWheeler"
+            android:layout_below="@+id/txtfr"
+            android:layout_marginTop="0dp"
+            android:inputType="numberDecimal"
+            android:textSize="13dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtte"
+            android:layout_below="@+id/etxtfr"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:text="Enter Emergancy Visiting Cost For TWoWheeler"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxttef"
+            android:layout_below="@+id/txtte"
+            android:inputType="numberDecimal"
+            android:textSize="13dp"
+            android:hint="Cost For 0-5 KM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxttet"
+            android:layout_below="@+id/etxttef"
+            android:textSize="13dp"
+            android:inputType="numberDecimal"
+            android:hint="Cost For 5-10 KM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtteff"
+            android:layout_below="@+id/etxttet"
+            android:textSize="13dp"
+            android:inputType="numberDecimal"
+            android:hint="Cost For 10-15 KM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxttett"
+            android:layout_below="@+id/etxtteff"
+            android:textSize="13dp"
+            android:inputType="numberDecimal"
+            android:hint="Cost For 15-20 KM"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtfe"
+            android:layout_below="@+id/etxttett"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"
+            android:text="Enter Emergancy Visiting Cost For FourWheeler"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtfef"
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/txtfe"
+            android:textSize="13dp"
+            android:hint="Cost For 0-5 KM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtfet"
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/etxtfef"
+            android:textSize="13dp"
+            android:hint="Cost For 5-10 KM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtfeff"
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/etxtfet"
+            android:textSize="13dp"
+            android:hint="Cost For 10-15 KM"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/etxtfett"
+            android:inputType="numberDecimal"
+            android:layout_below="@+id/etxtfeff"
+            android:textSize="13dp"
+            android:hint="Cost For 15-20 KM"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/btnOk"
+            android:layout_below="@+id/etxtfett"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnback"
+           android:layout_toRightOf="@+id/btnOk"
+            android:layout_marginLeft="20dp"
+            android:text="Back"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_below="@+id/etxtfett"/>
+    </RelativeLayout>
+
+</FrameLayout>

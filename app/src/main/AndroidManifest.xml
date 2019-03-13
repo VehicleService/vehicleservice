@@ -54,8 +54,11 @@
 
         <activity android:name=".activity.DirectionActivity" />
         <activity android:name=".GarageActivity.LoginActivityG" />
-        <activity android:name=".GarageActivity.MainActivityG" />
-        <activity android:name=".GarageActivity.RegisterActivityG"></activity>
+        <activity android:name=".GarageActivity.RegisterActivityG" />
+        <activity
+            android:name=".GarageActivity.Main2Activity"
+            android:label="Garage"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

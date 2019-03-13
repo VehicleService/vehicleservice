@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class LoginActivityG extends AppCompatActivity {
 
     Button submit;
@@ -69,12 +71,14 @@ public class LoginActivityG extends AppCompatActivity {
                                 sessionManager1 =new SessionManager1(LoginActivityG.this);
                                 sessionManager1.putData(snapshot.getKey(),snapshot.child("username").getValue().toString(),
                                         snapshot.child("password").getValue().toString());
-
+                                HashMap<String,String> userData=sessionManager1.getData();
+                                String instanceId=userData.get("InstanceId");
+                                reference.child(snapshot.getKey()).child("instanceId").setValue(instanceId);
                                 FirebaseAuth.getInstance().signInWithEmailAndPassword(Email.getText().toString(),PassWord.getText().toString()).addOnCompleteListener(LoginActivityG.this,new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if(task.isSuccessful()){
-                                            Intent i=new Intent(LoginActivityG.this,MainActivityG.class);
+                                            Intent i=new Intent(LoginActivityG.this,Main2Activity.class);
                                             startActivity(i);}
                                         else {
                                             Toast.makeText(LoginActivityG.this, "Failed", Toast.LENGTH_SHORT).show();

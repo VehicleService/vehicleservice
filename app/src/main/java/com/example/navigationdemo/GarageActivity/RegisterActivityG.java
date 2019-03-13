@@ -172,11 +172,7 @@ public class RegisterActivityG extends AppCompatActivity {
                     Password.setError("Enter PassWord");
                 } else if (Confirmpassword.getText().toString().isEmpty()) {
                     Confirmpassword.setError("ReEnter Password");
-                } else //                    sessionManager1=new SessionManager1(getApplicationContext());
-                    //                    String UserName=Username.getText().toString();
-                    //                    String PassWord=Password.getText().toString();
-                    //                    sessionManager1.putData(UserName,PassWord);
-                    if (!isValidConfirmPassword(Confirmpassword.getText().toString())) {
+                } else if (!isValidConfirmPassword(Confirmpassword.getText().toString())) {
                         Confirmpassword.setError("Password Should Match With Above PassWord");
                         Password.setText("");
                     } else {
@@ -240,7 +236,7 @@ public class RegisterActivityG extends AppCompatActivity {
     //}
     public void setUserdata() {
         key=reference.push().getKey();
-        Garage user=new Garage("","",Username.getText().toString(),PhoneNumber.getText().toString(),Email.getText().toString(),Password.getText().toString(),lat,lan);
+        Garage user=new Garage(Username.getText().toString(),PhoneNumber.getText().toString(),Email.getText().toString(),Password.getText().toString(),"","","",lat,lan);
 
         reference.child(key).setValue(user);
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

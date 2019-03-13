@@ -202,7 +202,7 @@ public class Home extends Fragment implements OnMapReadyCallback {
 //        LocationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         LocationRequest=new LocationRequest();
-        LocationRequest.setInterval(10000);
+        LocationRequest.setInterval(50000);
         com.google.android.gms.location.LocationSettingsRequest.Builder builder=new LocationSettingsRequest.Builder();
         builder.addLocationRequest(LocationRequest);
         LocationSettingsRequest=builder.build();
@@ -374,7 +374,7 @@ public class Home extends Fragment implements OnMapReadyCallback {
             reference.child(key).child("lat").setValue(lat);
             reference.child(key).child("lon").setValue(lan);
             LatLng user=new LatLng(lat,lan);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user,11));mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user,12));mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
                     try {

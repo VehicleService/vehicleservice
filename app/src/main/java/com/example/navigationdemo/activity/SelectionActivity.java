@@ -18,12 +18,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class SelectionActivity extends AppCompatActivity {
     Button submit;
     RadioGroup vehicletype,serviceType;
     RadioButton vtype,stype;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference referencev,references;
+    DatabaseReference referencev,references,reference;
     int i,j;
     String vkey,skey;
     SessionManager sessionManager;
@@ -38,6 +40,7 @@ public class SelectionActivity extends AppCompatActivity {
         firebaseDatabase=FirebaseDatabase.getInstance();
         referencev=firebaseDatabase.getReference("VehicleType");
         references=firebaseDatabase.getReference("ServiceType");
+        reference=firebaseDatabase.getReference("UserDetails");
         sessionManager=new SessionManager(SelectionActivity.this);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +87,10 @@ public class SelectionActivity extends AppCompatActivity {
                     if(vkey!=null&&skey!=null){
                         Toast.makeText(SelectionActivity.this, "data"+vkey+""+skey, Toast.LENGTH_SHORT).show();
                         sessionManager.putKeys(vkey,skey);
-
+                        HashMap<String,String> data=sessionManager.getData();
+                        String key=data.get("Key");
+                        reference.child(key).child("vehicletypeId").setValue(vkey);
+                        reference.child(key).child("servicetypeId").setValue(skey);
                    Intent i=new Intent(SelectionActivity.this,MainActivity.class);
                    startActivity(i);
                }}

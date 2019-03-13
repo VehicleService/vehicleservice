@@ -1,8 +1,8 @@
 package com.example.navigationdemo.Pojo;
 
 public class NotificationStatus {
-    String notificationid;
-    String status;
+   public String notificationid;
+   public String status;
 
 
     public NotificationStatus() {

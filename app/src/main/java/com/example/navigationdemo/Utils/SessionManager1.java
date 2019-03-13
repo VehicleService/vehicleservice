@@ -20,11 +20,16 @@ public class SessionManager1 {
         editor.putString("Password",password);
         editor.commit();
     }
+    public void putId(String InstanceId){
+        editor.putString("InstanceId",InstanceId);
+        editor.commit();
+    }
     public HashMap<String,String> getData(){
         HashMap<String,String> data=new HashMap<String,String>();
         data.put("Name",sharedPreferences.getString("Name",null));
         data.put("Password",sharedPreferences.getString("Password",null));
         data.put("Key",sharedPreferences.getString("Key",null));
+        data.put("InstanceId",sharedPreferences.getString("InstanceId",null));
         return data;
     }
 }

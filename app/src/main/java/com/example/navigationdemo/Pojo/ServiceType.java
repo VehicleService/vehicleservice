@@ -1,7 +1,7 @@
 package com.example.navigationdemo.Pojo;
 
 public class ServiceType {
-    String type;
+   public String type;
 
     public ServiceType() {
     }

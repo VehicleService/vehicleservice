@@ -1,6 +1,8 @@
 package com.example.navigationdemo.activity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.navigationdemo.Pojo.Area;
 import com.example.navigationdemo.Pojo.User;
 import com.example.navigationdemo.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,15 +25,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
     Button submit;
-    EditText Username,PhoneNumber,Email,Password,Confirmpassword;
+    EditText Username,PhoneNumber,Email,Password,Confirmpassword,Address;
     FirebaseDatabase instance;
-    DatabaseReference reference;
-
+    DatabaseReference reference,city,state,country,area;
+    String addressname;
+    String cityid;
+    String stateid;
+    String countryid;
+    String Areakey;
 //    SessionManager1 sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +50,13 @@ public class RegisterActivity extends AppCompatActivity {
         Email=(EditText)findViewById(R.id.etxtEmail);
         Password=(EditText)findViewById(R.id.etxtPassword);
         Confirmpassword=(EditText)findViewById(R.id.etxtConfirmpassword);
+        Address=(EditText)findViewById(R.id.etxtAddress);
         setTitle("Vehicle Service Booking");
         instance=FirebaseDatabase.getInstance();
+        city=instance.getReference("City");
+        state=instance.getReference("State");
+        country=instance.getReference("Country");
+        area=instance.getReference("Area");
         reference=instance.getReference("UserDetails");
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +83,12 @@ public class RegisterActivity extends AppCompatActivity {
                 else if(!isValidConfirmPassword(Confirmpassword.getText().toString())){
                     Confirmpassword.setError("Password Should Match With Above PassWord");
                     Password.setText("");
-                }else{
-//                    sessionManager=new SessionManager1(getApplicationContext());
-//                    String UserName=Username.getText().toString();
-//                    String PassWord=Password.getText().toString();
-//                    sessionManager.putData(UserName,PassWord);
-
+                }
+                else if(!isValidAddress(Address.getText().toString())){
+                    Address.setError("Enter Proper Address");
+                    Address.setText("");
+                }
+                else{
                     reference.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -107,9 +120,92 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    private boolean isValidAddress(String addressname) {
+
+        if(addressname!=null && !addressname.isEmpty()){
+            Geocoder geocoder=new Geocoder(RegisterActivity.this);
+            try{
+                List<Address> addresses = geocoder.getFromLocationName(addressname, 1);
+                if(addresses!=null){
+
+                    final Double Latitude=addresses.get(0).getLatitude();
+                    final Double Longitude=addresses.get(0).getLongitude();
+                    final String areaname1=addresses.get(0).getAddressLine(0);
+                    final String city1=addresses.get(0).getLocality();
+                    final String state1=addresses.get(0).getAdminArea();
+                    final String country1=addresses.get(0).getCountryName();
+
+//           Toast.makeText(RegisterActivity.this, "Latitude"+location.getLatitude()+"Longtitude"+location.getLongitude(), Toast.LENGTH_SHORT).show();
+                    city.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for(final DataSnapshot snapshot:dataSnapshot.getChildren()){
+                                if(snapshot.child("city").getValue().toString().equalsIgnoreCase(city1)){
+                                    cityid=snapshot.getKey();
+                                    state.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for(DataSnapshot snapshot1:dataSnapshot.getChildren()){
+                                                if(snapshot1.child("state").getValue().toString().equalsIgnoreCase(state1)){
+                                                    stateid=snapshot1.getKey();
+                                                    country.addValueEventListener(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                            for(DataSnapshot snapshot2:dataSnapshot.getChildren()){
+                                                                if(snapshot2.child("country").getValue().toString().equalsIgnoreCase(country1)){
+                                                                    countryid=snapshot2.getKey();
+                                                                     Areakey=area.push().getKey();
+                                                                    Area a=new Area(Address.getText().toString(),areaname1,cityid,stateid,countryid);
+                                                                    area.child(Areakey).setValue(a);
+                                                                }
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                    return true;
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, "address is null", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+            catch (Exception e){
+                Toast.makeText(RegisterActivity.this, ""+e, Toast.LENGTH_SHORT).show();
+            }
+        return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public void setUserdata() {
         String key=reference.push().getKey();
-        User user=new User(Username.getText().toString(),PhoneNumber.getText().toString(),Email.getText().toString(),Password.getText().toString(),"","","");
+        User user=new User(Username.getText().toString(),PhoneNumber.getText().toString(),Email.getText().toString(),
+                Password.getText().toString(),"","","","","",Areakey);
 
         reference.child(key).setValue(user);
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

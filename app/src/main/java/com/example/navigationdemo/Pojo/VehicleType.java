@@ -2,7 +2,7 @@ package com.example.navigationdemo.Pojo;
 
 public class VehicleType {
 
-    String type;
+    public String type;
 
     public VehicleType() {
     }

@@ -1,7 +1,7 @@
 package com.example.navigationdemo.Pojo;
 
 public class NotificationType {
-    String title;
+   public String title;
 
     public NotificationType() {
     }
