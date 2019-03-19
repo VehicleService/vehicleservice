@@ -41,6 +41,7 @@ public class LoginActivityG extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_g);
+        setTitle("Garage");
         submit=(Button)findViewById(R.id.btnSubmit);
         register=(TextView)findViewById(R.id.txtLink_to_Register);
         forgetpassword=(TextView)findViewById(R.id.txtNewUser);

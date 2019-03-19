@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import com.example.navigationdemo.Fragments.Home;
 import com.example.navigationdemo.Fragments.Notification;
-import com.example.navigationdemo.Fragments.Photos;
-import com.example.navigationdemo.Fragments.Settings;
+import com.example.navigationdemo.GarageFragments.Editprofile;
+import com.example.navigationdemo.GarageFragments.Exit;
 import com.example.navigationdemo.GarageFragments.MyService;
 import com.example.navigationdemo.R;
 
@@ -104,19 +104,20 @@ public class Main2Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_myservice) {
             setToolbarTitle("MyService");
             loadHomeFragment(0);
-        } else if (id == R.id.nav_photos) {
-            setToolbarTitle("Photos");
-            loadHomeFragment(1);
         } else if (id == R.id.nav_notification) {
             setToolbarTitle("Notification");
+            loadHomeFragment(1);
+        } else if (id == R.id.nav_editprofile) {
+            setToolbarTitle("EditProfile");
             loadHomeFragment(2);
-        } else if (id == R.id.nav_settings) {
-            setToolbarTitle("Settings");
+        }
+        else if (id == R.id.nav_exit) {
+            setToolbarTitle("Exit");
             loadHomeFragment(3);
-        } else if (id == R.id.nav_share) {
+        }else if (id == R.id.nav_share) {
             loadHomeFragment(4);
         } else if (id == R.id.nav_send) {
             loadHomeFragment(5);
@@ -153,15 +154,16 @@ public class Main2Activity extends AppCompatActivity
             case 0:
                 MyService myService=new MyService();
                 return myService;
+
             case 1:
-                Photos photos=new Photos();
-                return photos;
-            case 2:
                 Notification notification=new Notification();
                 return notification;
+            case 2:
+                Editprofile profile =new Editprofile();
+                return profile;
             case 3:
-                Settings settings=new Settings();
-                return settings;
+                Exit exit=new Exit();
+                return exit;
             default:
 
                 return new Home();

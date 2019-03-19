@@ -13,10 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.navigationdemo.Fragments.Editprofileuser;
 import com.example.navigationdemo.Fragments.Home;
 import com.example.navigationdemo.Fragments.Notification;
-import com.example.navigationdemo.Fragments.Photos;
-import com.example.navigationdemo.Fragments.Settings;
+import com.example.navigationdemo.Fragments.Feedback;
+import com.example.navigationdemo.Fragments.Userhistory;
+import com.example.navigationdemo.Fragments.Userrecent;
 import com.example.navigationdemo.R;
 
 public class MainActivity extends AppCompatActivity
@@ -106,19 +108,28 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             setToolbarTitle("Home");
             loadHomeFragment(0);
-        } else if (id == R.id.nav_photos) {
-            setToolbarTitle("Photos");
+        }  else if (id == R.id.nav_history) {
+            setToolbarTitle("History");
             loadHomeFragment(1);
-        } else if (id == R.id.nav_notification) {
-            setToolbarTitle("Notification");
+        } else if (id == R.id.nav_editprofileuser) {
+            setToolbarTitle("EditProfile");
             loadHomeFragment(2);
-        } else if (id == R.id.nav_settings) {
-            setToolbarTitle("Settings");
+        }
+
+        else if (id == R.id.nav_feedback) {
+            setToolbarTitle("Feedback");
             loadHomeFragment(3);
-        } else if (id == R.id.nav_share) {
+        }
+
+        else if (id == R.id.nav_recent) {
+            setToolbarTitle("Recent");
             loadHomeFragment(4);
-        } else if (id == R.id.nav_send) {
+        }
+
+        else if (id == R.id.nav_share) {
             loadHomeFragment(5);
+        } else if (id == R.id.nav_send) {
+            loadHomeFragment(6);
         }
 
 
@@ -152,15 +163,19 @@ public class MainActivity extends AppCompatActivity
             case 0:
                 Home home=new Home();
                 return home;
+
             case 1:
-                Photos photos=new Photos();
-                return photos;
+                Userhistory userhistory=new Userhistory();
+                return userhistory;
             case 2:
-                Notification notification=new Notification();
-                return notification;
+               Editprofileuser user=new Editprofileuser();
+               return user;
             case 3:
-                Settings settings=new Settings();
-                return settings;
+                Feedback feedback =new Feedback();
+                return feedback;
+            case 4:
+                Userrecent userrecent=new Userrecent();
+                return  userrecent;
            default:
 
                return new Home();

@@ -16,6 +16,7 @@ public class DirectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direction);
+        setTitle("Vehicle Service Booking");
         vehicleowner=(Button)findViewById(R.id.btnVehicleOwner);
         garageowner=(Button)findViewById(R.id.btnGarageOwner);
         vehicleowner.setOnClickListener(new View.OnClickListener() {

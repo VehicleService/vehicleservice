@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GarageFragments.Exit"
+    android:background="@color/background"
+    android:layout_gravity="center">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/realtivelayout">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtQuestion"
+        android:text="Are you sure you want to exit from the application?"
+        android:textSize="20dp"
+        android:gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtwarning"
+            android:layout_below="@+id/txtQuestion"
+            android:text="If you exit than you can't login again"
+            android:textSize="15dp"
+            android:gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/linkcolor"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exit"
+            android:id="@+id/btnexit"
+            android:layout_below="@+id/txtwarning"
+            android:gravity="center_horizontal"
+           android:layout_marginLeft="90dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_marginTop="30dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:id="@+id/btnbackagain"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_below="@id/txtwarning"
+        android:layout_toRightOf="@+id/btnexit"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"/>
+    </RelativeLayout>
+
+</FrameLayout>

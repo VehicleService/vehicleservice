@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.Feedback"
+    android:background="@color/background"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/relativefeedback">
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingbar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/txtrating"
+       android:layout_below="@+id/ratingbar"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginLeft="10dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtcomments"
+        android:text="Comments:"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/txtrating"/>
+    <EditText
+        android:layout_width="340dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:hint="Enter comments or complains here"
+        android:inputType="textImeMultiLine"
+        android:id="@+id/etxtcomments"
+        android:layout_below="@+id/txtcomments"
+        android:layout_marginTop="10dp"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSubmit"
+        android:layout_below="@+id/etxtcomments"
+        android:layout_marginTop="10dp"
+        android:text="Submit"
+        android:layout_marginLeft="10dp"
+        style="@style/Widget.AppCompat.Button.Colored"/>
+</RelativeLayout>
+</FrameLayout>

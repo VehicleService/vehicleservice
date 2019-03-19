@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.navigationdemo.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -39,6 +40,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void handledataMessage(JSONObject jsonObject) {
+        Log.d("Notification",""+jsonObject.toString());
     }
 
 
@@ -46,7 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Notification notification = builder
-//                .setSmallIcon(icon)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setAutoCancel(true)
                 .setContentText(body)
                 .setContentTitle("Garage")
