@@ -18,9 +18,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.navigationdemo.BuildConfig;
+import com.example.navigationdemo.MySingleton;
 import com.example.navigationdemo.Pojo.Garage;
 import com.example.navigationdemo.R;
+import com.example.navigationdemo.Utils.SessionManager1;
+import com.example.navigationdemo.activity.LoginActivity;
+import com.example.navigationdemo.activity.RegisterActivity;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -50,7 +59,9 @@ import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,6 +85,7 @@ public class RegisterActivityG extends AppCompatActivity {
     // EditText latlan;
     // boolean flag to toggle the ui
     private boolean RequestingLocationUpdates;
+    String uploadURL = "http://cas.mindhackers.org/vehicle-service-booking/public/api/garageregisteration";
 
     public double lat;
     public double lan;
@@ -82,10 +94,20 @@ public class RegisterActivityG extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 101;
 
 
+
+    String userName = "";
+    String email = "";
+    String pass = "";
+    String phone = "";
+    String instanceId="";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_g);
+        setTitle("Register");
         FusedLocationClient=LocationServices.getFusedLocationProviderClient(RegisterActivityG.this);
         SettingsClient=LocationServices.getSettingsClient(RegisterActivityG.this);
         LocationCallback=new LocationCallback(){
@@ -153,8 +175,12 @@ public class RegisterActivityG extends AppCompatActivity {
         reference=instance.getReference("GarageDetails");
 
         submit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
+                SessionManager1 sessionManager1=new SessionManager1(RegisterActivityG.this);
+                instanceId=sessionManager1.getId();
                 if (Username.getText().toString().isEmpty()) {
                     Username.setError("Enter User Name");
                 } else if (Email.getText().toString().isEmpty()) {
@@ -176,29 +202,30 @@ public class RegisterActivityG extends AppCompatActivity {
                         Confirmpassword.setError("Password Should Match With Above PassWord");
                         Password.setText("");
                     } else {
-                        reference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                boolean isExists = false;
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    if (Email.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())) {
-                                        isExists = true;
-                                        Toast.makeText(RegisterActivityG.this, "Email Exists", Toast.LENGTH_SHORT).show();
-
-                                    }
-
-                                }
-                                if (!isExists){
-
-                                    setUserdata();}
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+//                        reference.addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                boolean isExists = false;
+//                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                    if (Email.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())) {
+//                                        isExists = true;
+//                                        Toast.makeText(RegisterActivityG.this, "Email Exists", Toast.LENGTH_SHORT).show();
+//
+//                                    }
+//
+//                                }
+//                                if (!isExists){
+//
+                                    setUserdata();
+                                    uploadData();
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
                     }
             }
         });
@@ -255,10 +282,11 @@ public class RegisterActivityG extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Garage d = dataSnapshot.getValue(Garage.class);
-                if (d != null){
+                if (d != null) {
                     // Log.e("Status", d.username);
-                    Intent i=new Intent(RegisterActivityG.this,LoginActivityG.class);
-                    startActivity(i);}
+//                    Intent i=new Intent(RegisterActivityG.this,LoginActivityG.class);
+//                    startActivity(i);
+                }
             }
 
             @Override
@@ -429,5 +457,50 @@ public class RegisterActivityG extends AppCompatActivity {
     public  boolean isValidPhonenumber(String s){
         return android.util.Patterns.PHONE.matcher(s).matches();
     }
+
+
+    public void uploadData(){
+
+        userName = Username.getText().toString();
+        email=Email.getText().toString();
+        pass=Password.getText().toString();
+        phone=PhoneNumber.getText().toString();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.contentEquals("error_email_exist")){
+                    Toast.makeText(RegisterActivityG.this, "Email Exists", Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
+                    Intent i=new Intent(RegisterActivityG.this,LoginActivityG.class);
+                    startActivity(i);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(RegisterActivityG.this, "" + error, Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params=new HashMap<>();
+                params.put("name",userName);
+                params.put("email",email);
+                params.put("phone",phone);
+                params.put("password",pass);
+                params.put("latitude",String.valueOf(lat));
+                params.put("longitude",String.valueOf(lan));
+                params.put("instance_id",instanceId);
+                return params;
+            }
+        };
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
 }
 

@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtQuestion"
+        android:textColor="#000000"
         android:text="Are you sure you want to exit from the application?"
         android:textSize="20dp"
         android:gravity="center_horizontal"/>
@@ -25,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtwarning"
+
             android:layout_below="@+id/txtQuestion"
             android:text="If you exit than you can't login again"
             android:textSize="15dp"
@@ -36,8 +38,9 @@
             android:layout_height="wrap_content"
             android:text="Exit"
             android:id="@+id/btnexit"
+
             android:layout_below="@+id/txtwarning"
-            android:gravity="center_horizontal"
+            android:gravity="center"
            android:layout_marginLeft="90dp"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_marginTop="30dp"/>
@@ -45,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="back"
+        android:gravity="center"
         android:id="@+id/btnbackagain"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_below="@id/txtwarning"

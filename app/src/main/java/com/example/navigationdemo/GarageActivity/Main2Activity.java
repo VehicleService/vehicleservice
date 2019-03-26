@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.navigationdemo.Fragments.Home;
 import com.example.navigationdemo.Fragments.Notification;
+import com.example.navigationdemo.GarageFragments.DetailsG;
 import com.example.navigationdemo.GarageFragments.Editprofile;
 import com.example.navigationdemo.GarageFragments.Exit;
 import com.example.navigationdemo.GarageFragments.MyService;
@@ -107,8 +108,8 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.nav_myservice) {
             setToolbarTitle("MyService");
             loadHomeFragment(0);
-        } else if (id == R.id.nav_notification) {
-            setToolbarTitle("Notification");
+        } else if (id == R.id.nav_details) {
+            setToolbarTitle("Details");
             loadHomeFragment(1);
         } else if (id == R.id.nav_editprofile) {
             setToolbarTitle("EditProfile");
@@ -156,8 +157,8 @@ public class Main2Activity extends AppCompatActivity
                 return myService;
 
             case 1:
-                Notification notification=new Notification();
-                return notification;
+                DetailsG detailsG=new DetailsG();
+                return detailsG;
             case 2:
                 Editprofile profile =new Editprofile();
                 return profile;

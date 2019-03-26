@@ -1,5 +1,12 @@
 package com.example.navigationdemo.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -9,17 +16,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.navigationdemo.Fragments.Details;
 import com.example.navigationdemo.Fragments.Editprofileuser;
 import com.example.navigationdemo.Fragments.Home;
+import com.example.navigationdemo.Fragments.Logout;
 import com.example.navigationdemo.Fragments.Notification;
 import com.example.navigationdemo.Fragments.Feedback;
 import com.example.navigationdemo.Fragments.Userhistory;
 import com.example.navigationdemo.Fragments.Userrecent;
+import com.example.navigationdemo.Pojo.Nearbygarages;
 import com.example.navigationdemo.R;
+import com.example.navigationdemo.Utils.SessionManager;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,11 +41,15 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
+    ArrayList<Nearbygarages> nearbygarages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Home");
+        nearbygarages=(ArrayList<Nearbygarages>)getIntent().getSerializableExtra("Details");
+        Log.d("near",nearbygarages.get(0).getName());
 
          toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -63,6 +81,7 @@ public class MainActivity extends AppCompatActivity
             setToolbarTitle("Home");
             loadHomeFragment(0);
         }
+
     }
 
     @Override
@@ -121,9 +140,39 @@ public class MainActivity extends AppCompatActivity
             loadHomeFragment(3);
         }
 
-        else if (id == R.id.nav_recent) {
-            setToolbarTitle("Recent");
-            loadHomeFragment(4);
+
+        else if (id == R.id.nav_logout) {
+            setToolbarTitle("LogOut");
+            AlertDialog.Builder alert=new AlertDialog.Builder(MainActivity.this);
+            alert.setTitle("Logout");
+            alert.setMessage("Are you sure! you want to logout?");
+            alert.setCancelable(false);
+            alert.setPositiveButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent i=new Intent(MainActivity.this,MainActivity.class);
+                    startActivity(i);
+
+                }
+            });
+            alert.setNegativeButton("YES", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SessionManager sessionManager=new SessionManager(MainActivity.this);
+                    sessionManager.writeStatus(false);
+                    sessionManager.clear();
+                    Intent i=new Intent(MainActivity.this,LoginActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    startActivity(i);
+                    finish();
+
+                    Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+            alert.show();
         }
 
         else if (id == R.id.nav_share) {
@@ -162,20 +211,21 @@ public class MainActivity extends AppCompatActivity
         switch (index){
             case 0:
                 Home home=new Home();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Details",nearbygarages);
                 return home;
 
             case 1:
-                Userhistory userhistory=new Userhistory();
-                return userhistory;
+                Details details=new Details();
+                return details;
             case 2:
                Editprofileuser user=new Editprofileuser();
                return user;
             case 3:
                 Feedback feedback =new Feedback();
                 return feedback;
-            case 4:
-                Userrecent userrecent=new Userrecent();
-                return  userrecent;
+
+
            default:
 
                return new Home();

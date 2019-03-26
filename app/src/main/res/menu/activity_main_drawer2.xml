@@ -10,9 +10,9 @@
             android:title="MyService" />
 
         <item
-            android:id="@+id/nav_notification"
+            android:id="@+id/nav_details"
             android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="Notification" />
+            android:title="Details" />
         <item
             android:id="@+id/nav_editprofile"
             android:icon="@drawable/baseline_person_black_18dp"

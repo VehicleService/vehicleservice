@@ -53,7 +53,10 @@ public class Exit extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(getActivity(),Main2Activity.class);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                getActivity().finish();
             }
         });
         // Inflate the layout for this fragment

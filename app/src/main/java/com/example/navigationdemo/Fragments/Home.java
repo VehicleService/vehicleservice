@@ -28,8 +28,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.navigationdemo.BuildConfig;
+import com.example.navigationdemo.Pojo.Nearbygarages;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
+import com.example.navigationdemo.activity.BillActivity;
+import com.example.navigationdemo.activity.MainActivity;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -103,9 +106,10 @@ public class Home extends Fragment implements OnMapReadyCallback {
 
      public double lat;
     public double lan;
-
+    ArrayList<Nearbygarages> nearbygarages=new ArrayList<>();
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 101;
     private GoogleMap mMap;
+    Intent intent;
 
 
     public Home() {
@@ -117,6 +121,12 @@ public class Home extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_home, container, false);
+        Bundle bundle = getArguments();
+
+//        ArrayList<Nearbygarages> nearbygarages= (ArrayList<Nearbygarages>)bundle.getSerializable("Details");
+        nearbygarages=(ArrayList<Nearbygarages>)getActivity().getIntent().getSerializableExtra("Details");
+        Log.d("near",nearbygarages.get(0).getLatitude()+nearbygarages.get(0).getLongitude());
+        Log.d("size", String.valueOf(nearbygarages.size()));
 
         //Storing data in database
         firebaseDatabase=FirebaseDatabase.getInstance();
@@ -171,8 +181,8 @@ public class Home extends Fragment implements OnMapReadyCallback {
                         Double lon = (Double) data.child("lon").getValue();
                         Log.d("Loc", "lat" + lat + "Lon" + lon);
                         location = new LatLng(lat, lon);
-                        markers.add(location);
-                        Log.d("loc", "" + markers.get(0));
+                       // markers.add(location);
+                      //  Log.d("loc", "" + markers.get(0));
                     }
                 }
             }
@@ -363,10 +373,8 @@ public class Home extends Fragment implements OnMapReadyCallback {
     public void UIupdate(){
 
 
-            for (int i=0;i<markers.size();i++){
-                mMap.addMarker(new MarkerOptions().position(markers.get(i)).title("place"+i));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(markers.get(i)));
-            }
+
+
         if(CurrentLocation!=null){
             // latlan.setText("Lat"+CurrentLocation.getLatitude()+"Lon"+CurrentLocation.getLongitude());
             lat=CurrentLocation.getLatitude();
@@ -374,21 +382,32 @@ public class Home extends Fragment implements OnMapReadyCallback {
             reference.child(key).child("lat").setValue(lat);
             reference.child(key).child("lon").setValue(lan);
             LatLng user=new LatLng(lat,lan);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user,12));mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user,12));
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
+
                     try {
                         geocoder=new Geocoder(getActivity(), Locale.getDefault());
-
+                        intent=new Intent(getActivity(),BillActivity.class);
                         List<Address>  address=geocoder.getFromLocation(marker.getPosition().latitude,marker.getPosition().longitude,1);
                         Log.d("Address",address.get(0).getAddressLine(0));
                         final String Address="Address"+address.get(0).getAddressLine(0)+"\n"+" City"+address.get(0).getLocality()+
                                 "\n"+" State"+address.get(0).getAdminArea()+"\n"+" Country"+address.get(0).getCountryName()+
                                 "\n"+" PostalCode"+address.get(0).getPostalCode()+"\n"+" KnownName"+address.get(0).getFeatureName();
                         marker.setSnippet(Address);
+                        for (int i=0;i<nearbygarages.size();i++){
+                            if(nearbygarages.get(i).getLatitude().equalsIgnoreCase(String.valueOf(marker.getPosition().latitude))&&
+                                    nearbygarages.get(i).getLongitude().equalsIgnoreCase(String.valueOf(marker.getPosition().longitude))){
+                                intent.putExtra("details",nearbygarages.get(i));
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+
+                    startActivity(intent);
 
                     return false;
                 }
@@ -415,7 +434,17 @@ public class Home extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        for(int i=0;i<nearbygarages.size();i++){
+            Double lat=Double.valueOf(nearbygarages.get(i).getLatitude());
+            Double lon=Double.valueOf(nearbygarages.get(i).getLongitude());
+            Log.d("nearby",lat+""+lon);
 
+
+            location=new LatLng(lat,lon);
+            markers.add(location);
+            mMap.addMarker(new MarkerOptions().position(location).title("place"+i));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        }
 
 
 //            double lat=CurrentLocation.getLatitude();

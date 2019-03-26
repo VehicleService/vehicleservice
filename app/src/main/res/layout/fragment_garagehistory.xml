@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.Userhistory"
-    >
+    tools:context=".GarageFragments.garagehistory">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/recycleUserHistory"
+        android:id="@+id/recycleGarageHistory"
+
         android:scrollbars="vertical"/>
 </FrameLayout>

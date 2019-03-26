@@ -22,10 +22,11 @@
             android:id="@+id/nav_feedback"
             android:icon="@drawable/ic_menu_send"
             android:title="Feedback" />
+
         <item
-            android:id="@+id/nav_recent"
+            android:id="@+id/nav_logout"
             android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="Recent" />
+            android:title="LogOut" />
     </group>
 
     <item android:title="Communicate">

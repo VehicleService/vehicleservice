@@ -1,6 +1,10 @@
 package com.example.navigationdemo.activity;
 
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -12,9 +16,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.navigationdemo.MySingleton;
 import com.example.navigationdemo.Pojo.Area;
 import com.example.navigationdemo.Pojo.User;
 import com.example.navigationdemo.R;
+import com.example.navigationdemo.Utils.SessionManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,9 +37,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class RegisterActivity extends AppCompatActivity {
     Button submit;
@@ -39,11 +62,23 @@ public class RegisterActivity extends AppCompatActivity {
     String stateid;
     String countryid;
     String Areakey;
-//    SessionManager1 sessionManager;
+
+    String userName = "";
+    String email = "";
+    String urlUpload = "http://cas.mindhackers.org/vehicle-service-booking/public/api/userregisteration";
+    String pass = "";
+    String phone = "";
+    String address = "";
+    String instanceID = "";
+    Double latitude = 0.00;
+    Double longitude = 0.00;
+
+    SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         submit=(Button)findViewById(R.id.btnSubmit);
         Username=(EditText)findViewById(R.id.etxtUserName);
         PhoneNumber=(EditText)findViewById(R.id.etxtPhoneNumber);
@@ -51,7 +86,13 @@ public class RegisterActivity extends AppCompatActivity {
         Password=(EditText)findViewById(R.id.etxtPassword);
         Confirmpassword=(EditText)findViewById(R.id.etxtConfirmpassword);
         Address=(EditText)findViewById(R.id.etxtAddress);
-        setTitle("Vehicle Service Booking");
+
+       // handleSSLHandshake();
+
+        sessionManager = new SessionManager(RegisterActivity.this);
+        instanceID =  sessionManager.getId();
+
+        setTitle("Register");
         instance=FirebaseDatabase.getInstance();
         city=instance.getReference("City");
         state=instance.getReference("State");
@@ -61,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(Username.getText().toString().isEmpty()){
                     Username.setError("Enter User Name");
                 }else if(Email.getText().toString().isEmpty()){
@@ -89,35 +131,34 @@ public class RegisterActivity extends AppCompatActivity {
                     Address.setText("");
                 }
                 else{
-                    reference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            boolean isExists=false;
-                            for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                                if(Email.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())){
-                                    isExists=true;
-                                    Toast.makeText(RegisterActivity.this, "Email Exists", Toast.LENGTH_SHORT).show();
-
-                                }
-
-                            }
-                            if(!isExists)
+//                    reference.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            boolean isExists=false;
+//                            for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+//                                if(Email.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())){
+//                                    isExists=true;
+//                                    Toast.makeText(RegisterActivity.this, "Email Exists", Toast.LENGTH_SHORT).show();
+//
+//                                }
+//
+//                            }
+//                            if(!isExists)
                                 setUserdata();
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
 
                 }
             }
         });
+
+
     }
 
     private boolean isValidAddress(String addressname) {
@@ -128,8 +169,8 @@ public class RegisterActivity extends AppCompatActivity {
                 List<Address> addresses = geocoder.getFromLocationName(addressname, 1);
                 if(addresses!=null){
 
-                    final Double Latitude=addresses.get(0).getLatitude();
-                    final Double Longitude=addresses.get(0).getLongitude();
+                    latitude = addresses.get(0).getLatitude();
+                    longitude = addresses.get(0).getLongitude();
                     final String areaname1=addresses.get(0).getAddressLine(0);
                     final String city1=addresses.get(0).getLocality();
                     final String state1=addresses.get(0).getAdminArea();
@@ -203,9 +244,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void setUserdata() {
+        uploadData();
         String key=reference.push().getKey();
-        User user=new User(Username.getText().toString(),PhoneNumber.getText().toString(),Email.getText().toString(),
-                Password.getText().toString(),"","","","","",Areakey);
+        userName = Username.getText().toString();
+        pass = Password.getText().toString();
+        email = Email.getText().toString();
+        phone = PhoneNumber.getText().toString();
+
+        User user=new User(userName,phone ,email,
+                pass,"","","","","",Areakey);
 
         reference.child(key).setValue(user);
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -221,8 +268,8 @@ public class RegisterActivity extends AppCompatActivity {
                 User d = dataSnapshot.getValue(User.class);
                 if (d != null)
                     Log.e("Status", d.username);
-                Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
-                startActivity(i);
+//                Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
+//                startActivity(i);
             }
 
             @Override
@@ -258,4 +305,75 @@ public class RegisterActivity extends AppCompatActivity {
     public  boolean isValidPhonenumber(String s){
         return android.util.Patterns.PHONE.matcher(s).matches();
     }
+
+    public void uploadData(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, urlUpload, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.contentEquals("error_email_exist")){
+                    Toast.makeText(RegisterActivity.this, "Email Exists", Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
+                    Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
+                    startActivity(i);
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Registration unsuccesful" + " " + error , Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("name", userName);
+                params.put("email",email);
+                params.put("phone", phone);
+                params.put("password", pass);
+                params.put("instance_id", instanceID);
+                params.put("latitude",String.valueOf(latitude));
+                params.put("longitude",String.valueOf(longitude));
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+
+    @SuppressLint("TrulyRandom")
+    public static void handleSSLHandshake() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+
+                @Override
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
+            }};
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String arg0, SSLSession arg1) {
+                    return true;
+                }
+            });
+        } catch (Exception ignored) {
+        }
+    }
+
 }

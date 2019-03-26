@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.navigationdemo.Pojo.UserRecent;
 import com.example.navigationdemo.R;
@@ -39,7 +40,13 @@ public class Userrecentadapter extends RecyclerView.Adapter<Userrecentadapter.my
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Userrecentadapter.myViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final Userrecentadapter.myViewHolder myViewHolder, int i) {
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), ""+myViewHolder.username.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
         UserRecent u=userRecent.get(i);
         myViewHolder.appname.setText("Vehicle Service Booking");
         myViewHolder.time.setText(new SimpleDateFormat("HH:mm:ss a dd/MM/yyyy").format(Calendar.getInstance().getTime()));

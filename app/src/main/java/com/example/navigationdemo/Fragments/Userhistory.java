@@ -54,23 +54,23 @@ public class Userhistory extends Fragment {
     public void prepareData() {
         UserHistory h1=new UserHistory("h1","1","Arpita","Your vehicle is serviced by garage1");
         history.add(h1);
-        UserHistory h2=new UserHistory("h2","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h2=new UserHistory("h2","1","Arpita1","Your vehicle is serviced by garage1");
         history.add(h2);
-        UserHistory h3=new UserHistory("h3","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h3=new UserHistory("h3","1","Arpita2","Your vehicle is serviced by garage1");
         history.add(h3);
-        UserHistory h4=new UserHistory("h4","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h4=new UserHistory("h4","1","Arpita3","Your vehicle is serviced by garage1");
         history.add(h4);
-        UserHistory h5=new UserHistory("h5","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h5=new UserHistory("h5","1","Arpita4","Your vehicle is serviced by garage1");
         history.add(h5);
-        UserHistory h6=new UserHistory("h6","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h6=new UserHistory("h6","1","Arpita5","Your vehicle is serviced by garage1");
         history.add(h6);
-        UserHistory h7=new UserHistory("h7","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h7=new UserHistory("h7","1","Arpita6","Your vehicle is serviced by garage1");
         history.add(h7);
-        UserHistory h8=new UserHistory("h8","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h8=new UserHistory("h8","1","Arpita7","Your vehicle is serviced by garage1");
         history.add(h8);
-        UserHistory h9=new UserHistory("h9","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h9=new UserHistory("h9","1","Arpita8","Your vehicle is serviced by garage1");
         history.add(h9);
-        UserHistory h10=new UserHistory("h10","1","Arpita","Your vehicle is serviced by garage1");
+        UserHistory h10=new UserHistory("h10","1","Arpita9","Your vehicle is serviced by garage1");
         history.add(h10);
         }
 

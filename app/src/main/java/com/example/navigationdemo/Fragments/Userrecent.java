@@ -11,8 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.example.navigationdemo.Pojo.UserHistory;
 import com.example.navigationdemo.Pojo.UserRecent;
 import com.example.navigationdemo.R;
+import com.example.navigationdemo.Utils.Userhistoryadapter;
 import com.example.navigationdemo.Utils.Userrecentadapter;
 
 import java.util.ArrayList;
@@ -24,8 +26,8 @@ import java.util.List;
 public class Userrecent extends Fragment {
     
     RecyclerView recyclerView;
-    List<UserRecent> userRecent=new ArrayList<>();
-    Userrecentadapter adapter;
+    List<UserHistory> history=new ArrayList<>();
+    Userhistoryadapter adapter;
     
 
     public Userrecent() {
@@ -38,7 +40,7 @@ public class Userrecent extends Fragment {
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_userrecent, container, false);
         recyclerView=(RecyclerView)v.findViewById(R.id.recycleUserRecent);
-        adapter=new Userrecentadapter(userRecent);
+        adapter=new Userhistoryadapter(history);
         RecyclerView.LayoutManager manager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -51,26 +53,26 @@ public class Userrecent extends Fragment {
     }
 
     private void prepareData() {
-        UserRecent h1=new UserRecent("h1","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h1);
-        UserRecent h2=new UserRecent("h2","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h2);
-        UserRecent h3=new UserRecent("h3","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h3);
-        UserRecent h4=new UserRecent("h4","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h4);
-        UserRecent h5=new UserRecent("h5","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h5);
-        UserRecent h6=new UserRecent("h6","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h6);
-        UserRecent h7=new UserRecent("h7","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h7);
-        UserRecent h8=new UserRecent("h8","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h8);
-        UserRecent h9=new UserRecent("h9","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h9);
-        UserRecent h10=new UserRecent("h10","1","Arpita","Your vehicle is serviced by garage1");
-        userRecent.add(h10);
+        UserHistory h1=new UserHistory("h1","1","Arpita","Your vehicle is serviced by garage1");
+        history.add(h1);
+        UserHistory h2=new UserHistory("h2","1","Arpita1","Your vehicle is serviced by garage1");
+        history.add(h2);
+        UserHistory h3=new UserHistory("h3","1","Arpita2","Your vehicle is serviced by garage1");
+        history.add(h3);
+        UserHistory h4=new UserHistory("h4","1","Arpita3","Your vehicle is serviced by garage1");
+        history.add(h4);
+        UserHistory h5=new UserHistory("h5","1","Arpita4","Your vehicle is serviced by garage1");
+        history.add(h5);
+        UserHistory h6=new UserHistory("h6","1","Arpita5","Your vehicle is serviced by garage1");
+        history.add(h6);
+        UserHistory h7=new UserHistory("h7","1","Arpita6","Your vehicle is serviced by garage1");
+        history.add(h7);
+        UserHistory h8=new UserHistory("h8","1","Arpita7","Your vehicle is serviced by garage1");
+        history.add(h8);
+        UserHistory h9=new UserHistory("h9","1","Arpita8","Your vehicle is serviced by garage1");
+        history.add(h9);
+        UserHistory h10=new UserHistory("h10","1","Arpita9","Your vehicle is serviced by garage1");
+        history.add(h10);
     }
 
 }
