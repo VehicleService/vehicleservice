@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.navigationdemo.GarageActivity.UserdetailsActivity;
 import com.example.navigationdemo.Pojo.Notificationdetails;
 import com.example.navigationdemo.R;
+import com.example.navigationdemo.Utils.SessionManager;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -30,6 +31,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String NOTIFICATION_CHANNEL_NAME = "NavigationDemo";
     Notificationdetails notificationdetails;
     String[] data;
+    JSONObject jsonObject;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 //        super.onMessageReceived(remoteMessage);
@@ -42,9 +44,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("Data", remoteMessage.getData().toString());
 
 
-                JSONObject jsonObject = new JSONObject(remoteMessage.getData());
+                jsonObject = new JSONObject(remoteMessage.getData());
 
-                handledataMessage(jsonObject);
+
 
 
         }
@@ -59,7 +61,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("Notification",""+jsonObject.toString());
 
         try {
-            notificationdetails=new Notificationdetails(jsonObject.getString("name"),jsonObject.getString("phone"),
+            notificationdetails=new Notificationdetails(jsonObject.getString("user_id"),jsonObject.getString("name"),jsonObject.getString("phone"),
                     jsonObject.getString("service_type"),jsonObject.getString("vehicle_type"),jsonObject.getString("latitude"),
                     jsonObject.getString("longitude"));
             Log.d("notificationdetails",jsonObject.getString("name")+jsonObject.getString("phone")+
@@ -86,7 +88,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("notarr7",data[7]);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,0);
+
 
         builder.setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setAutoCancel(true)
@@ -103,7 +105,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         if(data[2].equalsIgnoreCase("request")) {
-
+            handledataMessage(jsonObject);
+            PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,0);
                 builder.setContentIntent(pendingIntent)
                     .setContentTitle("Garage");
 

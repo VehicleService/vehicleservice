@@ -25,6 +25,7 @@ import com.example.navigationdemo.Utils.SessionManager;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -37,6 +38,7 @@ public class BillActivity extends AppCompatActivity {
     Button agree,disagree;
     SessionManager sessionManager;
     Nearbygarages nearbygarages;
+    ArrayList<Nearbygarages> garagelist;
     HashMap<String,String> ids=new HashMap<>();
     HashMap<String,String> user=new HashMap<>();
     String upload="http://cas.mindhackers.org/vehicle-service-booking/public/api/notification";
@@ -55,7 +57,7 @@ public class BillActivity extends AppCompatActivity {
         ids=sessionManager.getserveh();
         user=sessionManager.getapidata();
          nearbygarages= (Nearbygarages) getIntent().getSerializableExtra("details");
-
+        garagelist= (ArrayList<Nearbygarages>) getIntent().getSerializableExtra("Details");
         Geocoder geocoder=new Geocoder(BillActivity.this,Locale.getDefault());
         try {
             List<Address>  addresses=geocoder.getFromLocation(Double.valueOf(nearbygarages.getLatitude()),Double.valueOf(nearbygarages.getLongitude()),1);
@@ -73,15 +75,19 @@ public class BillActivity extends AppCompatActivity {
             public void onClick(View v) {
                 uploaddata();
 
+
             }
         });
         disagree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(BillActivity.this,MainActivity.class);
+                i.putExtra("Details",garagelist);
                 startActivity(i);
+
             }
         });
+
     }
 
     private void uploaddata() {
@@ -106,6 +112,9 @@ public class BillActivity extends AppCompatActivity {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+        Intent i=new Intent(BillActivity.this,MainActivity.class);
+        i.putExtra("Details",garagelist);
+        startActivity(i);
     }
     public HashMap<String, String> getParams() {
         HashMap<String, String> params = new HashMap<>();

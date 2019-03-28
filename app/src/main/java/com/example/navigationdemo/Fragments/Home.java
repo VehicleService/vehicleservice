@@ -396,6 +396,7 @@ public class Home extends Fragment implements OnMapReadyCallback {
                             if(nearbygarages.get(i).getLatitude().equalsIgnoreCase(String.valueOf(marker.getPosition().latitude))&&
                                     nearbygarages.get(i).getLongitude().equalsIgnoreCase(String.valueOf(marker.getPosition().longitude))){
                                 intent.putExtra("details",nearbygarages.get(i));
+                                intent.putExtra("Details",nearbygarages);
                             }
                         }
                     } catch (IOException e) {

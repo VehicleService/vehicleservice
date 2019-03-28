@@ -243,6 +243,15 @@ public class MyService extends Fragment {
 
             }
         });
+//        HashMap<String, String> params = new HashMap<>();
+//        params.put("garage_id","id");
+//        params.put("service_id","service_id");
+//        params.put("vehicle_id","vehicle_id");
+//        params.put("two_regular","two_cost");
+//        params.put("four_regular","four_cost");
+//        params.put("two_eme","two_eme");
+//        params.put("four_eme","four_eme");
+//        return params;
 
         // Inflate the layout for this fragment
         return view;

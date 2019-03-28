@@ -48,6 +48,15 @@ public class SelectionActivity extends AppCompatActivity {
     HashMap<String, String> userdata;
     int service_id, vehicle_id;
     String uploadurl = "http://cas.mindhackers.org/vehicle-service-booking/public/api/nearbygarages";
+
+
+
+    String garageid,servicetypeid,vehicletypeid,twowheelerregularcost,fourwheelerregularcost,twoemergencycostperkilometer,
+            fourwheeleremergencycostperkilometer;
+
+
+
+
     //Api request data
     String userid, servicetype_id, vehicletype_id, session_id;
 

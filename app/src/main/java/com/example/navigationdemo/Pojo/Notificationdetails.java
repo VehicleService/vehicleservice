@@ -3,6 +3,7 @@ package com.example.navigationdemo.Pojo;
 import java.io.Serializable;
 
 public class Notificationdetails implements Serializable {
+    String user_id;
     String name;
     String phone;
     String servicetype;
@@ -13,13 +14,22 @@ public class Notificationdetails implements Serializable {
     public Notificationdetails() {
     }
 
-    public Notificationdetails(String name, String phone, String servicetype, String vehicletype, String latitude, String longitude) {
+    public Notificationdetails(String userid,String name, String phone, String servicetype, String vehicletype, String latitude, String longitude) {
+        this.user_id=userid;
         this.name = name;
         this.phone = phone;
         this.servicetype = servicetype;
         this.vehicletype = vehicletype;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public String getUserid() {
+        return user_id;
+    }
+
+    public void setUserid(String userid) {
+        this.user_id = userid;
     }
 
     public String getName() {

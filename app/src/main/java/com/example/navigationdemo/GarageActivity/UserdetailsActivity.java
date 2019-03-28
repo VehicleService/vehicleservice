@@ -1,5 +1,6 @@
 package com.example.navigationdemo.GarageActivity;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
@@ -38,14 +39,14 @@ public class UserdetailsActivity extends AppCompatActivity {
     SessionManager1 sessionManager1;
     Notificationdetails notification;
     String vehicle,service;
-    String uploadurl="http://cas.mindhackers.org/vehicle-service-booking/public/api/notification";
+    String uploadurl="http://cas.mindhackers.org/vehicle-service-booking/public/api/usernotification";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userdetails);
         setTitle("UserDetails");
-        notification= (Notificationdetails) UserdetailsActivity.this.getIntent().getSerializableExtra("notificationdetails");
-        Log.d("notre",notification.getName()+notification.getLatitude()+notification.getPhone()+notification.getLongitude()+notification.getServicetype()+notification.getVehicletype());
+        notification= (Notificationdetails)getIntent().getSerializableExtra("notificationdetails");
+        Log.d("notre",notification.getUserid()+notification.getName()+notification.getLatitude()+notification.getPhone()+notification.getLongitude()+notification.getServicetype()+notification.getVehicletype());
         Log.d("notres",String.valueOf(getIntent().getSerializableExtra("notificationdetails")));
         Log.d("notres1",notification.getName());
         name=(TextView)findViewById(R.id.etxtname);
@@ -91,10 +92,11 @@ public class UserdetailsActivity extends AppCompatActivity {
                 denied();
             }
         });
+
     }
 
     private void accepted() {
-        Log.d("confirm",data.get("id")+vehicle+service);
+        Log.d("confirm",data.get("id")+vehicle+service+notification.getUserid());
         String Url=appendToUrl(uploadurl,getParams(1));
         StringRequest stringRequest=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
             @Override
@@ -114,12 +116,14 @@ public class UserdetailsActivity extends AppCompatActivity {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+        Intent i=new Intent(UserdetailsActivity.this,Main2Activity.class);
+        startActivity(i);
     }
     public HashMap<String, String> getParams(int a) {
         if(a==1){
         HashMap<String, String> params = new HashMap<>();
         params.put("garage_id",data.get("id"));
-        params.put("user_id","1");
+        params.put("user_id",notification.getUserid());
         params.put("vehicle_id",vehicle);
         params.put("service_id",service);
         params.put("notification_type_id",String.valueOf(2));
@@ -128,7 +132,7 @@ public class UserdetailsActivity extends AppCompatActivity {
         return params;}
         else{ HashMap<String, String> params = new HashMap<>();
             params.put("garage_id",data.get("id"));
-            params.put("user_id","1");
+            params.put("user_id",notification.getUserid());
             params.put("vehicle_id",vehicle);
             params.put("service_id",service);
             params.put("notification_type_id",String.valueOf(3));
@@ -187,6 +191,11 @@ public class UserdetailsActivity extends AppCompatActivity {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+        Intent i=new Intent(UserdetailsActivity.this,Main2Activity.class);
+        startActivity(i);
 
     }
+
+
+
 }
