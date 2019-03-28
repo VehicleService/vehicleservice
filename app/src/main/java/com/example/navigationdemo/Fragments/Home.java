@@ -371,16 +371,12 @@ public class Home extends Fragment implements OnMapReadyCallback {
                 });
     }
     public void UIupdate(){
-
-
-
-
         if(CurrentLocation!=null){
             // latlan.setText("Lat"+CurrentLocation.getLatitude()+"Lon"+CurrentLocation.getLongitude());
             lat=CurrentLocation.getLatitude();
             lan=CurrentLocation.getLongitude();
-            reference.child(key).child("lat").setValue(lat);
-            reference.child(key).child("lon").setValue(lan);
+//            reference.child(key).child("lat").setValue(lat);
+//            reference.child(key).child("lon").setValue(lan);
             LatLng user=new LatLng(lat,lan);
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(user,12));
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {

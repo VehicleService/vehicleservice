@@ -126,8 +126,8 @@ public class SelectionActivity extends AppCompatActivity {
                         sessionManager.putKeys(vkey, skey);
                         HashMap<String, String> data = sessionManager.getData();
                         String key = data.get("Key");
-                        reference.child(key).child("vehicletypeId").setValue(vkey);
-                        reference.child(key).child("servicetypeId").setValue(skey);
+                      //  reference.child(key).child("vehicletypeId").setValue(vkey);
+                       // reference.child(key).child("servicetypeId").setValue(skey);
 
                     }
                 }
@@ -164,11 +164,12 @@ public class SelectionActivity extends AppCompatActivity {
                         }
                         Log.d("array",values.toString());
                         intent.putExtra("Details",values);
+                        startActivity(intent);
 
                     } catch (Exception e) {
                         Toast.makeText(SelectionActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                    startActivity(intent);
+
                 }
                 else{
                     Log.d("nodata","not available");

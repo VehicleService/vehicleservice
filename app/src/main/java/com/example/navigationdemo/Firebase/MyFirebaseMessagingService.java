@@ -1,10 +1,14 @@
 package com.example.navigationdemo.Firebase;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,7 +26,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     Intent intent;
     int NOTIFICATION_ID = 101;
+    String NOTIFICATION_CHANNEL_ID = "com.example.navigationdemo";
+    String NOTIFICATION_CHANNEL_NAME = "NavigationDemo";
     Notificationdetails notificationdetails;
+    String[] data;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 //        super.onMessageReceived(remoteMessage);
@@ -33,12 +40,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         if (remoteMessage.getData().size() > 0) {
             Log.d("Data", remoteMessage.getData().toString());
-            try {
+
+
                 JSONObject jsonObject = new JSONObject(remoteMessage.getData());
+
                 handledataMessage(jsonObject);
-            } catch (Exception e) {
-                Log.d("Error", e.getMessage());
-            }
+
+
         }
         if (remoteMessage.getNotification() != null) {
             Log.d("NotificationBody", remoteMessage.getNotification().getBody());
@@ -49,6 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void handledataMessage(JSONObject jsonObject) {
         Log.d("Notification",""+jsonObject.toString());
+
         try {
             notificationdetails=new Notificationdetails(jsonObject.getString("name"),jsonObject.getString("phone"),
                     jsonObject.getString("service_type"),jsonObject.getString("vehicle_type"),jsonObject.getString("latitude"),
@@ -58,14 +67,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     jsonObject.getString("longitude"));
             intent=new Intent(this,UserdetailsActivity.class);
             intent.putExtra("notificationdetails",notificationdetails);
+            Log.d("Called","yes");
         } catch (Exception e) {
-            Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+           Log.d("Exception",e.getMessage());
         }
     }
 
 
     private void handleNotification(String body) {
-        String[] data=body.split(" ");
+        data=body.split(" ");
         Log.d("notarr",data[0]);
         Log.d("notarr1",data[1]);
         Log.d("notarr2",data[2]);
@@ -75,20 +85,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("notarr6",data[6]);
         Log.d("notarr7",data[7]);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,0);
 
+        builder.setSmallIcon(R.mipmap.ic_launcher_foreground)
+                .setAutoCancel(true)
+                .setContentText(body);
+
+        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
+            int importance=NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel=new NotificationChannel(NOTIFICATION_CHANNEL_ID,NOTIFICATION_CHANNEL_NAME,importance);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
 
         if(data[2].equalsIgnoreCase("request")) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-            PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,0);
-            Notification notification = builder
-                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setContentText(body)
-                    .setContentTitle("Garage")
-                    .build();
-
+                builder.setContentIntent(pendingIntent)
+                    .setContentTitle("Garage");
 
 //                .setContentIntent(resultPendingIntent)
 //                .setSound(alarmSound)
@@ -97,18 +114,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                .setSmallIcon(R.mipmap.ic_launcher)
 //                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
 
-            NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(NOTIFICATION_ID, notification);
+            Log.d("send","success");
         }
         else {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-            Notification notification = builder
-                    .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                    .setAutoCancel(true)
-                    .setContentText(body)
-                    .setContentTitle("User")
-                    .build();
-
+            builder.setContentTitle("User");
 
 //                .setContentIntent(resultPendingIntent)
 //                .setSound(alarmSound)
@@ -117,10 +126,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                .setSmallIcon(R.mipmap.ic_launcher)
 //                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
 
-            NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(NOTIFICATION_ID, notification);
 
+            Log.d("send1","Success1");
         }
+
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
 
     }
 }

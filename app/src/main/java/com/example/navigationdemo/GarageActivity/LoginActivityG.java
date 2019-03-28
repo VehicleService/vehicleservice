@@ -34,11 +34,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -57,8 +60,10 @@ public class LoginActivityG extends AppCompatActivity {
     FirebaseAuth auth;
     String email,pass,instanceId;
     String uploadURL = "http://cas.mindhackers.org/vehicle-service-booking/public/api/garagelogin";
-    String id,sessionid,email1,sid1,sid2,sid3,service1,service2,service3,vid1,vid2,vid3,vehicle1,vehicle2,vehicle3;
+    String forgeturl="http://cas.mindhackers.org/vehicle-service-booking/public/api/garageforgotpassword";
+    String id,sessionid,email1,sid1,sid2,sid3,service1,service2,service3,vid1,vid2,vid3,vehicle1,vehicle2,vehicle3,email2;
     JSONArray array1,array;
+    String refreshToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +76,13 @@ public class LoginActivityG extends AppCompatActivity {
             finish();
         }
 */
+
+        refreshToken=FirebaseInstanceId.getInstance().getToken();
+        Log.d("Token",refreshToken);
+        instanceId=refreshToken;
+
+
+
         setTitle("Login");
         submit=(Button)findViewById(R.id.btnSubmit);
         register=(TextView)findViewById(R.id.txtLink_to_Register);
@@ -80,7 +92,7 @@ public class LoginActivityG extends AppCompatActivity {
         firebaseDatabase=FirebaseDatabase.getInstance();
         reference=firebaseDatabase.getReference("GarageDetails");
         sessionManager1=new SessionManager1(LoginActivityG.this);
-        instanceId=sessionManager1.getId();
+       sessionManager1.putId(refreshToken);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,6 +170,7 @@ public class LoginActivityG extends AppCompatActivity {
         forgetpassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 AlertDialog.Builder alert=new AlertDialog.Builder(LoginActivityG.this);
                 alert.setTitle("Email");
                 alert.setMessage("Enter email address to send password");
@@ -168,74 +181,9 @@ public class LoginActivityG extends AppCompatActivity {
                 alert.setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        reference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                                    if(input.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())){
-                                        String to=input.getText().toString();
-                                        auth=FirebaseAuth.getInstance();
-                                        auth.sendPasswordResetEmail(to).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if(task.isSuccessful()){
-                                                    Toast.makeText(LoginActivityG.this, "Email sent", Toast.LENGTH_SHORT).show();
-                                                }
-                                                else{
-                                                    Toast.makeText(LoginActivityG.this, "Failed", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
+                        email2=input.getText().toString();
+                        forgotpassword();
 
-//                                    String TO[]={to};
-//                                    String CC[]={""};
-//                                    Intent email=new Intent(Intent.ACTION_SEND);
-//                                    email.setData(Uri.parse("mailto:"));
-//                                    email.setType("text/plain");
-//                                    email.putExtra(Intent.EXTRA_EMAIL,TO);
-//                                    email.putExtra(Intent.EXTRA_SUBJECT,"Password");
-//                                    email.putExtra(Intent.EXTRA_TEXT,snapshot.child("password").getValue().toString());
-//
-//                                    try{
-//                                        startActivity(Intent.createChooser(email,"send mail..."));
-//                                        finish();
-//                                    }catch (Exception e){
-//
-//                                        Toast.makeText(LoginActivityG.this, "No email client installed", Toast.LENGTH_SHORT).show();
-//                                    }
-
-//                                        BackgroundMail.newBuilder(LoginActivityG.this)
-//                                                .withUsername("aptulsibhai1974@gmail.com")
-//                                                .withPassword("17bellavista")
-//                                                .withMailto(to)
-//                                                .withType(BackgroundMail.TYPE_PLAIN)
-//                                                .withSubject("Password")
-//                                                .withBody(snapshot.child("password").getValue().toString())
-//                                                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
-//                                                    @Override
-//                                                    public void onSuccess() {
-//                                                        Toast.makeText(LoginActivityG.this, "Mail Sent", Toast.LENGTH_SHORT).show();
-//                                                    }
-//                                                }).withOnFailCallback(new BackgroundMail.OnFailCallback() {
-//                                            @Override
-//                                            public void onFail() {
-//                                                Toast.makeText(LoginActivityG.this, "failed", Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        }).send();
-
-                                    }
-                                    else{
-                                        Toast.makeText(LoginActivityG.this, "Email is not registered", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
                     }
                 });
                 alert.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
@@ -249,6 +197,58 @@ public class LoginActivityG extends AppCompatActivity {
         });
 
     }
+
+    private void forgotpassword() {
+        String Url=appendToUrl(forgeturl,getParams());
+        email1=Email.getText().toString();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("response",response);
+                Toast.makeText(LoginActivityG.this, response, Toast.LENGTH_SHORT).show();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivityG.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+    }
+    protected HashMap<String, String> getParams(){
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email",email2);
+
+        return params;}
+    public static String appendToUrl(String url, HashMap<String, String> parameters) {
+        try {
+            URI uri = new URI(url);
+            String query = uri.getQuery();
+            StringBuilder builder = new StringBuilder();
+
+            if (query != null)
+                builder.append(query);
+
+            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                String keyValueParam = entry.getKey() + "=" + entry.getValue();
+                if (!builder.toString().isEmpty())
+                    builder.append("&");
+
+                builder.append(keyValueParam);
+            }
+
+            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
+            return newUri.toString();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
     public  boolean isValidPassword(String s2){
         if(s2!=null &&s2.length()>6){
             return true;

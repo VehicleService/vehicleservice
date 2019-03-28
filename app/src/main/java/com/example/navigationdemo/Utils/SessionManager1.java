@@ -35,6 +35,19 @@ public class SessionManager1 {
 
         return data;
     }
+    public HashMap<String,String> getapidata(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("id",sharedPreferences.getString("id",null));
+        data.put("email",sharedPreferences.getString("email",null));
+        data.put("sessionid",sharedPreferences.getString("sessionid",null));
+        data.put("two-wheeler",sharedPreferences.getString("two-wheeler",null));
+        data.put("four-wheeler",sharedPreferences.getString("four-wheeler",null));
+        data.put("bothv",sharedPreferences.getString("bothv",null));
+        data.put("boths",sharedPreferences.getString("boths",null));
+        data.put("regular",sharedPreferences.getString("regular",null));
+        data.put("emergency",sharedPreferences.getString("emergency",null));
+        return data;
+    }
     public void putapidata(String id,String email,String sessionid,String sid1,String service1,String sid2,String service2,String sid3,String service3,
                            String vid1,String vehicle1,String vid2,String vehicle2,String vid3,String vehicle3){
         editor.putString("id",id);
