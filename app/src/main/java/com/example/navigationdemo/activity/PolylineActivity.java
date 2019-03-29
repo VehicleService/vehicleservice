@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.navigationdemo.Importantclasses.DirectionsJsonParser;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -53,6 +55,11 @@ public class PolylineActivity extends FragmentActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_polyline);
+
+
+
+
+
         sessionManager=new SessionManager(PolylineActivity.this);
         locations=sessionManager.getLocations();
         perAddress=sessionManager.getPerAddress();
@@ -110,9 +117,10 @@ public class PolylineActivity extends FragmentActivity implements OnMapReadyCall
          point=new LatLng(Double.valueOf(locations.get("userlat")),Double.valueOf(locations.get("userlon")));
         point1=new LatLng(Double.valueOf(locations.get("garagelat")),Double.valueOf(locations.get("garagelon")));}
         else {
-             point=new LatLng(Double.valueOf(perAddress.get("perlat")),Double.valueOf(perAddress.get("perlon")));
+             point=new LatLng(23.082156,72.4909025);
              point1=new LatLng(Double.valueOf(locations.get("garagelat")),Double.valueOf(locations.get("garagelon")));
         }
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12));
         points.add(0,point);
         points.add(1,point1);
         for (int i=0;i<points.size();i++){

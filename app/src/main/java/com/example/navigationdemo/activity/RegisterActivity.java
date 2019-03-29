@@ -86,8 +86,15 @@ public class RegisterActivity extends AppCompatActivity {
 
        // handleSSLHandshake();
 
+//        if(getSupportActionBar()!=null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
         sessionManager = new SessionManager(RegisterActivity.this);
         instanceID =  sessionManager.getId();
+
+
+
+
 
         setTitle("Register");
         instance=FirebaseDatabase.getInstance();

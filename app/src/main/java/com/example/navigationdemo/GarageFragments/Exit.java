@@ -1,6 +1,7 @@
 package com.example.navigationdemo.GarageFragments;
 
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.android.volley.Request.Method.DELETE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,7 +88,7 @@ public class Exit extends Fragment {
     private void uploadData() {
         String Url=appendToUrl(uploadUrl,getParams());
         Log.d("id",data.get("id"));
-        StringRequest stringRequest=new StringRequest(Request.Method.DELETE, Url, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(DELETE, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
@@ -95,6 +98,7 @@ public class Exit extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("response",error.getMessage());
                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -113,7 +117,6 @@ public class Exit extends Fragment {
             URI uri = new URI(url);
             String query = uri.getQuery();
             StringBuilder builder = new StringBuilder();
-
             if (query != null)
                 builder.append(query);
 

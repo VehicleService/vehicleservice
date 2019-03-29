@@ -106,6 +106,9 @@ public class RegisterActivityG extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_g);
         setTitle("Register");
+//        if(getSupportActionBar()!=null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
         FusedLocationClient=LocationServices.getFusedLocationProviderClient(RegisterActivityG.this);
         SettingsClient=LocationServices.getSettingsClient(RegisterActivityG.this);
         LocationCallback=new LocationCallback(){

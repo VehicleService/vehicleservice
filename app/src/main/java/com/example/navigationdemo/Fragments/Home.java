@@ -433,18 +433,19 @@ public class Home extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        for(int i=0;i<nearbygarages.size();i++){
-            Double lat=Double.valueOf(nearbygarages.get(i).getLatitude());
-            Double lon=Double.valueOf(nearbygarages.get(i).getLongitude());
-            Log.d("nearby",lat+""+lon);
+        if (nearbygarages!=null) {
+            for (int i = 0; i < nearbygarages.size(); i++) {
+                Double lat = Double.valueOf(nearbygarages.get(i).getLatitude());
+                Double lon = Double.valueOf(nearbygarages.get(i).getLongitude());
+                Log.d("nearby", lat + "" + lon);
 
 
-            location=new LatLng(lat,lon);
-            markers.add(location);
-            mMap.addMarker(new MarkerOptions().position(location).title("place"+i));
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                location = new LatLng(lat, lon);
+                markers.add(location);
+                mMap.addMarker(new MarkerOptions().position(location).title("place" + i));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+            }
         }
-
 
 //            double lat=CurrentLocation.getLatitude();
 //            double lan=CurrentLocation.getLongitude();

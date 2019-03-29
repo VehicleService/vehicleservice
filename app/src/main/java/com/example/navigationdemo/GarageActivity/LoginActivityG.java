@@ -64,7 +64,9 @@ public class LoginActivityG extends AppCompatActivity {
             finish();
         }
 */
-
+//        if(getSupportActionBar()!=null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
         refreshToken=FirebaseInstanceId.getInstance().getToken();
         Log.d("Token",refreshToken);
         instanceId=refreshToken;

@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Home");
+//        if(getSupportActionBar()!=null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        }
         nearbygarages=(ArrayList<Nearbygarages>)getIntent().getSerializableExtra("Details");
        // Log.d("near",nearbygarages.get(0).getName());
 

@@ -10,7 +10,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:id="@+id/relativeSelect"
-    android:visibility="invisible"
+    android:visibility="visible"
     android:gravity="center"
    >
     <TextView
@@ -65,7 +65,7 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Emergancy"/>
+            android:text="Emergency"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:id="@+id/relativeCost"
         android:layout_gravity="center"
         android:gravity="center"
@@ -113,7 +113,7 @@
             android:id="@+id/txtfr"
             android:textColor="#000000"
             android:layout_below="@+id/etxttr"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="20dp"
             android:text="Four Wheeler Regular Service Cost:"
             android:textSize="15dp"/>
         <EditText
@@ -132,7 +132,7 @@
             android:id="@+id/txtte"
             android:textColor="#000000"
             android:layout_below="@+id/etxtfr"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="20dp"
             android:textSize="15dp"
             android:text="Enter Emergancy Visiting Cost For TWoWheeler"/>
         <EditText
@@ -143,42 +143,15 @@
             android:layout_below="@+id/txtte"
             android:inputType="numberDecimal"
             android:textSize="13dp"
-            android:hint="Cost For 0-5 KM"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etxttet"
-            android:textColor="#000000"
-            android:layout_below="@+id/etxttef"
-            android:textSize="13dp"
-            android:inputType="numberDecimal"
-            android:hint="Cost For 5-10 KM"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etxtteff"
-            android:layout_below="@+id/etxttet"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            android:inputType="numberDecimal"
-            android:hint="Cost For 10-15 KM"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etxttett"
-            android:layout_below="@+id/etxtteff"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            android:inputType="numberDecimal"
-            android:hint="Cost For 15-20 KM"
-            />
+            android:hint="Cost Per KM"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtfe"
             android:textColor="#000000"
-            android:layout_below="@+id/etxttett"
-            android:layout_marginTop="0dp"
+            android:layout_below="@+id/etxttef"
+            android:layout_marginTop="20dp"
             android:textSize="15dp"
             android:text="Enter Emergancy Visiting Cost For FourWheeler"/>
         <EditText
@@ -190,53 +163,27 @@
             android:inputType="numberDecimal"
             android:layout_below="@+id/txtfe"
             android:textSize="13dp"
-            android:hint="Cost For 0-5 KM"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etxtfet"
-            android:textColor="#000000"
-            android:layout_marginTop="0dp"
-            android:inputType="numberDecimal"
-            android:layout_below="@+id/etxtfef"
-            android:textSize="13dp"
-            android:hint="Cost For 5-10 KM"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etxtfeff"
-            android:layout_marginTop="0dp"
-            android:inputType="numberDecimal"
-            android:layout_below="@+id/etxtfet"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            android:hint="Cost For 10-15 KM"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/etxtfett"
-            android:inputType="numberDecimal"
-            android:layout_below="@+id/etxtfeff"
-            android:textSize="13dp"
-            android:textColor="#000000"
-            android:layout_marginTop="0dp"
-            android:hint="Cost For 15-20 KM"/>
+            android:hint="Cost Per KM"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Submit"
             android:id="@+id/btnOk"
-            android:layout_below="@+id/etxtfett"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_below="@+id/etxtfef"
             style="@style/Widget.AppCompat.Button.Colored"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnback"
+            android:layout_marginTop="30dp"
            android:layout_toRightOf="@+id/btnOk"
             android:layout_marginLeft="20dp"
             android:text="Back"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_below="@+id/etxtfett"/>
+            android:layout_below="@+id/etxtfef"/>
     </RelativeLayout>
 
 </FrameLayout>
