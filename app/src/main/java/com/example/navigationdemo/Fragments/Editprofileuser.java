@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.navigationdemo.Pojo.Area;
 import com.example.navigationdemo.R;
+import com.example.navigationdemo.Utils.SessionManager;
 import com.example.navigationdemo.activity.RegisterActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,7 +37,7 @@ public class Editprofileuser extends Fragment {
     EditText Username,PhoneNumber,Email,Password,Confirmpassword,Address;
     FirebaseDatabase instance;
     DatabaseReference reference;
-
+    SessionManager sessionManager;
 
     public Editprofileuser() {
         // Required empty public constructor
@@ -46,6 +48,7 @@ public class Editprofileuser extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v= inflater.inflate(R.layout.fragment_editprofileuser, container, false);
+        sessionManager=new SessionManager(getActivity());
         submit=(Button)v.findViewById(R.id.btnSubmit);
         Username=(EditText)v.findViewById(R.id.etxtUserName);
         PhoneNumber=(EditText)v.findViewById(R.id.etxtPhoneNumber);

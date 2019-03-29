@@ -95,4 +95,48 @@ public class SessionManager {
 
         editor.commit();
     }
+    public void setLocations(String userlat,String userlon,String garagelat,String garagelon){
+        editor.putString("userlat",userlat);
+        editor.putString("userlon",userlon);
+        editor.putString("garagelat",garagelat);
+        editor.putString("garagelon",garagelon);
+        editor.commit();
+    }
+    public HashMap<String,String> getLocations(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("userlat",sharedPreferences.getString("userlat",null));
+        data.put("userlon",sharedPreferences.getString("userlon",null));
+        data.put("garagelat",sharedPreferences.getString("garagelat",null));
+        data.put("garagelon",sharedPreferences.getString("garagelon",null));
+        return data;
+    }
+    public void putPerAddress(String latitude,String longitude){
+        editor.putString("perlat",latitude);
+        editor.putString("perlon",longitude);
+        editor.commit();
+    }
+    public HashMap<String,String> getPerAddress(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("perlat",sharedPreferences.getString("perlat",null));
+        data.put("perlon",sharedPreferences.getString("perlon",null));
+        return data;
+    }
+    public void setService(String service){
+        editor.putString("service",service);
+        editor.commit();
+    }
+    public void setVehicle(String vehicle){
+        editor.putString("vehicle",vehicle);
+        editor.commit();
+    }
+    public HashMap<String,String> getService(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("service",sharedPreferences.getString("service",null));
+        return data;
+    }
+    public HashMap<String,String> getVehicle(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("vehicle",sharedPreferences.getString("vehicle",null));
+        return data;
+    }
 }

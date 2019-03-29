@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         setTitle("Home");
         nearbygarages=(ArrayList<Nearbygarages>)getIntent().getSerializableExtra("Details");
-        Log.d("near",nearbygarages.get(0).getName());
+       // Log.d("near",nearbygarages.get(0).getName());
 
          toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

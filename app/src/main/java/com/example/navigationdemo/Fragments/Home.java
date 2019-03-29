@@ -125,8 +125,8 @@ public class Home extends Fragment implements OnMapReadyCallback {
 
 //        ArrayList<Nearbygarages> nearbygarages= (ArrayList<Nearbygarages>)bundle.getSerializable("Details");
         nearbygarages=(ArrayList<Nearbygarages>)getActivity().getIntent().getSerializableExtra("Details");
-        Log.d("near",nearbygarages.get(0).getLatitude()+nearbygarages.get(0).getLongitude());
-        Log.d("size", String.valueOf(nearbygarages.size()));
+      //  Log.d("near",nearbygarages.get(0).getLatitude()+nearbygarages.get(0).getLongitude());
+       // Log.d("size", String.valueOf(nearbygarages.size()));
 
         //Storing data in database
         firebaseDatabase=FirebaseDatabase.getInstance();
@@ -397,6 +397,8 @@ public class Home extends Fragment implements OnMapReadyCallback {
                                     nearbygarages.get(i).getLongitude().equalsIgnoreCase(String.valueOf(marker.getPosition().longitude))){
                                 intent.putExtra("details",nearbygarages.get(i));
                                 intent.putExtra("Details",nearbygarages);
+                                sessionManager.setLocations(String.valueOf(lat),String.valueOf(lan),String.valueOf(marker.getPosition().latitude)
+                                        ,String.valueOf(marker.getPosition().longitude));
                             }
                         }
                     } catch (IOException e) {

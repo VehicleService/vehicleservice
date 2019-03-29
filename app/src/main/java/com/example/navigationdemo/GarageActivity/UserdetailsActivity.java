@@ -16,12 +16,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.navigationdemo.MySingleton;
-import com.example.navigationdemo.Pojo.Notification;
+import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.Pojo.Notificationdetails;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager1;
-import com.example.navigationdemo.activity.BillActivity;
 
 import java.net.URI;
 import java.net.URISyntaxException;

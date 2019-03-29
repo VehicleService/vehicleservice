@@ -16,7 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.navigationdemo.MySingleton;
+import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.Pojo.Nearbygarages;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
@@ -27,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
@@ -86,15 +85,19 @@ public class SelectionActivity extends AppCompatActivity {
                     userdata = sessionManager.getapidata();
                     if (vtype.getText().toString().equalsIgnoreCase("TwoWheeler")) {
                         vehicle_id = Integer.valueOf(userdata.get("two-wheeler"));
+                        sessionManager.setVehicle("two-wheeler");
                     } else if (vtype.getText().toString().equalsIgnoreCase("FourWheeler")) {
                         vehicle_id = Integer.valueOf(userdata.get("four-wheeler"));
+                        sessionManager.setVehicle("two-wheeler");
                     } else {
                         Toast.makeText(SelectionActivity.this, "Select Vehicle Type", Toast.LENGTH_SHORT).show();
                     }
                     if (stype.getText().toString().equalsIgnoreCase("Regular")) {
                         service_id = Integer.valueOf(userdata.get("regular"));
+                        sessionManager.setService("regular");
                     } else if (stype.getText().toString().equalsIgnoreCase("Emergency")) {
                         service_id = Integer.valueOf(userdata.get("emergency"));
+                        sessionManager.setService("emergency");
                     } else {
                         Toast.makeText(SelectionActivity.this, "Select Service Type", Toast.LENGTH_SHORT).show();
                     }

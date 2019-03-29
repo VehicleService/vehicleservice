@@ -17,6 +17,7 @@ import com.example.navigationdemo.GarageActivity.UserdetailsActivity;
 import com.example.navigationdemo.Pojo.Notificationdetails;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
+import com.example.navigationdemo.activity.PolylineActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -120,7 +121,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("send","success");
         }
         else {
-            builder.setContentTitle("User");
+            if(data[2].equalsIgnoreCase("confirm")){
+            Intent newone=new Intent(this,PolylineActivity.class);
+            PendingIntent pendingIntent=PendingIntent.getActivity(this,0,newone,0);
+
+            builder.setContentIntent(pendingIntent).setContentTitle("User");
 
 //                .setContentIntent(resultPendingIntent)
 //                .setSound(alarmSound)
@@ -130,7 +135,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), icon))
 
 
-            Log.d("send1","Success1");
+            Log.d("send1","Success1");}
+            else {
+                builder.setContentTitle("User");
+            }
         }
 
         notificationManager.notify(NOTIFICATION_ID, builder.build());

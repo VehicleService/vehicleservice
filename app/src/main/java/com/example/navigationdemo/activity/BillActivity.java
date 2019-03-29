@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +16,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.navigationdemo.MySingleton;
+import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.Pojo.Nearbygarages;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;

@@ -1,10 +1,7 @@
 package com.example.navigationdemo.activity;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -22,7 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.navigationdemo.MySingleton;
+import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.Pojo.Area;
 import com.example.navigationdemo.Pojo.User;
 import com.example.navigationdemo.R;
@@ -171,6 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                     latitude = addresses.get(0).getLatitude();
                     longitude = addresses.get(0).getLongitude();
+
                     final String areaname1=addresses.get(0).getAddressLine(0);
                     final String city1=addresses.get(0).getLocality();
                     final String state1=addresses.get(0).getAdminArea();
@@ -316,6 +314,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
+                    sessionManager.putPerAddress(String.valueOf(latitude),String.valueOf(longitude));
                     Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
                     startActivity(i);
                 }
