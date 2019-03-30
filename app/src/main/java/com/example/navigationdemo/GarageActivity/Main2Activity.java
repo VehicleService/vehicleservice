@@ -109,7 +109,7 @@ public class Main2Activity extends AppCompatActivity
             setToolbarTitle("MyService");
             loadHomeFragment(0);
         } else if (id == R.id.nav_details) {
-            setToolbarTitle("Details");
+            setToolbarTitle("History");
             loadHomeFragment(1);
         } else if (id == R.id.nav_editprofile) {
             setToolbarTitle("EditProfile");
@@ -117,12 +117,12 @@ public class Main2Activity extends AppCompatActivity
         }
         else if (id == R.id.nav_exit) {
             setToolbarTitle("Exit");
-            loadHomeFragment(3);
-        }else if (id == R.id.nav_share) {
-            loadHomeFragment(4);
-        } else if (id == R.id.nav_send) {
-            loadHomeFragment(5);
-        }
+            loadHomeFragment(3);}
+//        else if (id == R.id.nav_share) {
+//            loadHomeFragment(4);
+//        } else if (id == R.id.nav_send) {
+//            loadHomeFragment(5);
+//        }
 
 
         drawer.closeDrawer(GravityCompat.START);

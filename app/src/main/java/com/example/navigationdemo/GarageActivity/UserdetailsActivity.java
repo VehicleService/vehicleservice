@@ -101,7 +101,7 @@ public class UserdetailsActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 Log.d("data",response);
-                Toast.makeText(UserdetailsActivity.this, response, Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(UserdetailsActivity.this, response, Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -176,7 +176,7 @@ public class UserdetailsActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 Log.d("data",response);
-                Toast.makeText(UserdetailsActivity.this, response, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(UserdetailsActivity.this, response, Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

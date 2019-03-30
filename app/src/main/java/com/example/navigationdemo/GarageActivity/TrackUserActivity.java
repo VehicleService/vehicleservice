@@ -159,7 +159,7 @@ public class TrackUserActivity extends FragmentActivity implements OnMapReadyCal
                     @SuppressLint("MissingPermission")
                     @Override
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                        Toast.makeText(TrackUserActivity.this, "Start Location Update", Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(TrackUserActivity.this, "Start Location Update", Toast.LENGTH_SHORT).show();
                         //noinspection permissioncheck
                         FusedLocationClient.requestLocationUpdates(LocationRequest, LocationCallback, Looper.myLooper());
                         // Toast.makeText(getActivity(), "Lat:"+CurrentLocation.getLatitude()+"Lon:"+CurrentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
@@ -213,10 +213,10 @@ public class TrackUserActivity extends FragmentActivity implements OnMapReadyCal
                 switch (resultCode) {
                     case Activity
                             .RESULT_OK:
-                        Toast.makeText(TrackUserActivity.this, "User agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(TrackUserActivity.this, "User agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
                         break;
                     case Activity.RESULT_CANCELED:
-                        Toast.makeText(TrackUserActivity.this, "User  not agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(TrackUserActivity.this, "User  not agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
@@ -264,7 +264,7 @@ public class TrackUserActivity extends FragmentActivity implements OnMapReadyCal
 
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(TrackUserActivity.this, "Location Update Stopped", Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(TrackUserActivity.this, "Location Update Stopped", Toast.LENGTH_SHORT).show();
 
                     }
                 });

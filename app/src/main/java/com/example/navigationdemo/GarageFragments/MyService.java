@@ -104,7 +104,7 @@ public class MyService extends Fragment {
                     else if (vehicelr.getText().toString().equalsIgnoreCase("Both")){
                         vehicle_id=data.get("bothv");
                     }
-                    Toast.makeText(getActivity(), service_id+""+vehicle_id, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActivity(), service_id+""+vehicle_id, Toast.LENGTH_SHORT).show();
                     service.setVisibility(View.INVISIBLE);
                     cost.setVisibility(View.VISIBLE);
                 }
@@ -221,7 +221,7 @@ public class MyService extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
-                Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
                 Intent i=new Intent(getContext(),Main2Activity.class);
                 startActivity(i);
 

@@ -45,7 +45,7 @@ public class garagerecent extends Fragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getContext(), "Done", Toast.LENGTH_SHORT).show();
         prepareData();
         // Inflate the layout for this fragment
         return v;

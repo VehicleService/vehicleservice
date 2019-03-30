@@ -98,7 +98,7 @@ public class Feedback extends Fragment {
             public void onClick(View v) {
                 TextView rate=(TextView)feedback.findViewById(R.id.txtrating);
                 rate.setText("Your Ratings:"+String.valueOf(rt.getRating()));
-                Toast.makeText(getActivity(), ""+comments.getText().toString(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), ""+comments.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
         return v;

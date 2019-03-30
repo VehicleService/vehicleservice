@@ -217,7 +217,7 @@ public class RegisterActivityG extends AppCompatActivity {
 //                                }
 //                                if (!isExists){
 //
-                                    setUserdata();
+                                   // setUserdata();
                                     uploadData();
 //
 //                            }
@@ -270,7 +270,7 @@ public class RegisterActivityG extends AppCompatActivity {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Toast.makeText(RegisterActivityG.this, "Authentication done", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(RegisterActivityG.this, "Authentication done", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -375,10 +375,10 @@ public class RegisterActivityG extends AppCompatActivity {
                 switch (resultCode) {
                     case Activity
                             .RESULT_OK:
-                        Toast.makeText(RegisterActivityG.this, "User agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(RegisterActivityG.this, "User agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
                         break;
                     case Activity.RESULT_CANCELED:
-                        Toast.makeText(RegisterActivityG.this, "User  not agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(RegisterActivityG.this, "User  not agreed to make required location settings changes", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
@@ -425,7 +425,7 @@ public class RegisterActivityG extends AppCompatActivity {
 
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(RegisterActivityG.this, "Location Update Stopped", Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(RegisterActivityG.this, "Location Update Stopped", Toast.LENGTH_SHORT).show();
 
                     }
                 });

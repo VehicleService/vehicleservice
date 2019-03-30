@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:text="Type Of Vehicle"
         android:textColor="#000000"
+
         android:gravity="center_horizontal"
         android:textSize="20dp"/>
     <RadioGroup
@@ -102,9 +103,10 @@
             android:layout_height="wrap_content"
             android:hint="Enter Regular Service Cost For TwoWheeler"
             android:id="@+id/etxttr"
+
             android:textColor="#000000"
             android:layout_below="@+id/txttr"
-           android:layout_marginTop="0dp"
+           android:layout_marginTop="10dp"
             android:textSize="13dp"
             android:inputType="numberDecimal"/>
         <TextView
@@ -123,7 +125,8 @@
             android:textColor="#000000"
             android:hint="Enter Regular Service Cost For FourWheeler"
             android:layout_below="@+id/txtfr"
-            android:layout_marginTop="0dp"
+
+            android:layout_marginTop="10dp"
             android:inputType="numberDecimal"
             android:textSize="13dp"/>
         <TextView
@@ -140,9 +143,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/etxttef"
             android:textColor="#000000"
+
             android:layout_below="@+id/txtte"
             android:inputType="numberDecimal"
             android:textSize="13dp"
+            android:layout_marginTop="10dp"
             android:hint="Cost Per KM"/>
 
         <TextView
@@ -153,13 +158,15 @@
             android:layout_below="@+id/etxttef"
             android:layout_marginTop="20dp"
             android:textSize="15dp"
+
             android:text="Enter Emergancy Visiting Cost For FourWheeler"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/etxtfef"
             android:textColor="#000000"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="10dp"
+
             android:inputType="numberDecimal"
             android:layout_below="@+id/txtfe"
             android:textSize="13dp"

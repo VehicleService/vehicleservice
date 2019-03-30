@@ -178,11 +178,11 @@ public class MainActivity extends AppCompatActivity
             alert.show();
         }
 
-        else if (id == R.id.nav_share) {
-            loadHomeFragment(5);
-        } else if (id == R.id.nav_send) {
-            loadHomeFragment(6);
-        }
+//        else if (id == R.id.nav_share) {
+//            loadHomeFragment(5);
+//        } else if (id == R.id.nav_send) {
+//            loadHomeFragment(6);
+//        }
 
 
         drawer.closeDrawer(GravityCompat.START);

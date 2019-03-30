@@ -59,7 +59,7 @@ public class Exit extends Fragment {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Your account will be deleted in 1 hour", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(), "Your account will be deleted in 1 hour", Toast.LENGTH_SHORT).show();
                 try {
                     uploadData();
                     Exit.this.wait(300);
@@ -92,7 +92,7 @@ public class Exit extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
-                Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {

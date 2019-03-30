@@ -195,7 +195,7 @@ public class LoginActivityG extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
-                Toast.makeText(LoginActivityG.this, response, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(LoginActivityG.this, response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
@@ -298,7 +298,7 @@ public class LoginActivityG extends AppCompatActivity {
                         sid3=String.valueOf(data6.getInt("id"));
                         service3=data6.getString("service_type");
                         sessionManager1.putapidata(id,email1,sessionid,sid1,service1,sid2,service2,sid3,service3,vid1,vehicle1,vid2,vehicle2,vid3,vehicle3);
-                        Toast.makeText(LoginActivityG.this, email1+id+sessionid+array+array1, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(LoginActivityG.this, email1+id+sessionid+array+array1, Toast.LENGTH_SHORT).show();
 
                     }
                     catch (Exception e){
@@ -310,7 +310,7 @@ public class LoginActivityG extends AppCompatActivity {
                     Toast.makeText(LoginActivityG.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                 }
 
-                Toast.makeText(LoginActivityG.this, response+"Login successfull", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(LoginActivityG.this, response+"Login successfull", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

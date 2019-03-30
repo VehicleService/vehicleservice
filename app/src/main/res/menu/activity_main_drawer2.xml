@@ -7,33 +7,35 @@
         <item
             android:id="@+id/nav_myservice"
             android:icon="@drawable/ic_menu_manage"
-            android:title="MyService" />
+            android:title="MyService"
+            android:onClick="@color/linkcolor"/>
+
 
         <item
             android:id="@+id/nav_details"
-            android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="Details" />
+            android:icon="@drawable/baseline_history_black_18dp"
+            android:title="History" />
         <item
             android:id="@+id/nav_editprofile"
-            android:icon="@drawable/baseline_person_black_18dp"
+            android:icon="@drawable/baseline_edit_black_18dp"
             android:title="EditProfile" />
         <item
             android:id="@+id/nav_exit"
-            android:icon="@drawable/ic_menu_send"
+            android:icon="@drawable/baseline_power_settings_new_black_18dp"
             android:title="Exit" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+    <!--<item android:title="Communicate">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/nav_share"-->
+                <!--android:icon="@drawable/ic_menu_share"-->
+                <!--android:title="Share" />-->
+            <!--<item-->
+                <!--android:id="@+id/nav_send"-->
+                <!--android:icon="@drawable/ic_menu_send"-->
+                <!--android:title="Send" />-->
+        <!--</menu>-->
+    <!--</item>-->
 
 </menu>

@@ -3,7 +3,8 @@
     <color name="colorPrimary">#2F8DFF</color>
     <color name="colorPrimaryDark">#1b21d8</color>
     <color name="colorAccent">#1b21d8</color>
-    <color name="background">#33ABF9</color>
+    <color name="background">#FFFFFF</color>
     <color name="linkcolor">#FF0000</color>
-    <color name="tabcolor">#34CCFF</color>
+    <color name="tabcolor">#87CEEB</color>
+    <color name="field_back">#D3D3D3</color>
 </resources>

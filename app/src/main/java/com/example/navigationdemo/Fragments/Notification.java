@@ -37,7 +37,7 @@ public class Notification extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),aa.getItem(position),Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActivity(),aa.getItem(position),Toast.LENGTH_SHORT).show();
 
             }
         });
