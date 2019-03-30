@@ -151,12 +151,12 @@ public class SelectionActivity extends AppCompatActivity {
     private void uploadData() {
         String Url = appendToUrl(uploadurl, getParams());
         Log.d("TAG", "uploadData: url: "+Url);
-        Toast.makeText(this, service_id + "" + vehicle_id, Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, service_id + "" + vehicle_id, Toast.LENGTH_SHORT).show();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response", response);
-                Toast.makeText(SelectionActivity.this,response, Toast.LENGTH_LONG).show();
+               // Toast.makeText(SelectionActivity.this,response, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(SelectionActivity.this, MainActivity.class);
                 if(!response.equals(Integer.toString(-1))){
                     try {
@@ -165,7 +165,7 @@ public class SelectionActivity extends AppCompatActivity {
                         JSONArray data=new JSONArray(response);
                         Log.d("response1",data.toString());
                         ArrayList<Nearbygarages> values=new ArrayList<>();
-                        Toast.makeText(SelectionActivity.this, ""+data, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(SelectionActivity.this, ""+data, Toast.LENGTH_LONG).show();
                         for (int i=0;i<data.length();i++) {
                             JSONObject object = data.getJSONObject(i);
                             Nearbygarages nearbygarages=new Nearbygarages(String.valueOf(object.getInt("id")),

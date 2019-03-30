@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -32,7 +32,9 @@
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.SplashActivity">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,7 +65,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.BillActivity" />
         <activity android:name=".GarageActivity.UserdetailsActivity" />
-        <activity android:name=".activity.PolylineActivity"></activity>
+        <activity android:name=".activity.PolylineActivity" />
+        <activity android:name=".GarageActivity.TrackUserActivity"></activity>
     </application>
 
 </manifest>

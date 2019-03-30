@@ -1,11 +1,13 @@
 package com.example.navigationdemo.Fragments;
 
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.Pojo.Area;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
+import com.example.navigationdemo.activity.LoginActivity;
 import com.example.navigationdemo.activity.RegisterActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,10 +45,16 @@ import java.util.regex.Pattern;
 public class Editprofileuser extends Fragment {
 
     Button submit;
-    EditText Username,PhoneNumber,Email,Password,Confirmpassword,Address;
+    EditText Username,PhoneNumber,Email,Address;
     FirebaseDatabase instance;
     DatabaseReference reference;
     SessionManager sessionManager;
+   Double Latitude,Longitude;
+
+
+   HashMap<String,String> data;
+
+    String uploadURL = "http://cas.mindhackers.org/vehicle-service-booking/public/api/userupdateprofile";
 
     public Editprofileuser() {
         // Required empty public constructor
@@ -53,11 +70,12 @@ public class Editprofileuser extends Fragment {
         Username=(EditText)v.findViewById(R.id.etxtUserName);
         PhoneNumber=(EditText)v.findViewById(R.id.etxtPhoneNumber);
         Email=(EditText)v.findViewById(R.id.etxtEmail);
-        Password=(EditText)v.findViewById(R.id.etxtPassword);
-        Confirmpassword=(EditText)v.findViewById(R.id.etxtConfirmpassword);
+
         Address=(EditText)v.findViewById(R.id.etxtAddress);
-        instance=FirebaseDatabase.getInstance();
-        reference=instance.getReference("GarageDetails");
+
+        data=sessionManager.getapidata();
+
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,24 +87,56 @@ public class Editprofileuser extends Fragment {
                 }else if(!isValidPhonenumber(PhoneNumber.getText().toString())){
                     PhoneNumber.setError("Enter Valid PhoneNumber");
                 }
-                else if (!isValidPassword(Password.getText().toString())) {
-                    Password.setError("Enter PassWord");
-                } else if (Confirmpassword.getText().toString().isEmpty()) {
-                    Confirmpassword.setError("ReEnter Password");
-                } else if (!isValidConfirmPassword(Confirmpassword.getText().toString())) {
-                    Confirmpassword.setError("Password Should Match With Above PassWord");
-                    Password.setText("");
-                } else if(!isValidAddress(Address.getText().toString())){
+               else if(!isValidAddress(Address.getText().toString())){
                     Address.setError("Enter Proper Address");
                     Address.setText("");
                 }
                 else {
                     //save data using api
+                    uploadData();
                 }
             }
         });
         // Inflate the layout for this fragment
         return v;
+    }
+
+    private void uploadData() {
+        Log.d("data",data.get("id")+Username.getText().toString()+PhoneNumber.getText().toString()+Email.getText().toString()+
+                String.valueOf(Latitude)+String.valueOf(Longitude));
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,uploadURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.d("response",response);
+                    Toast.makeText(getContext(),  "Profile Updated", Toast.LENGTH_LONG).show();
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(), "Profile updation unsuccesful" + " " + error , Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("user_id",data.get("id"));
+                params.put("name",Username.getText().toString());
+                params.put("email", Email.getText().toString());
+                params.put("phone",PhoneNumber.getText().toString());
+                params.put("password", "");
+                params.put("latitude",String.valueOf(Latitude));
+                params.put("longitude",String.valueOf(Longitude));
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MySingleton.getInstance(getActivity()).addToRequestQueue(stringRequest);
     }
 
     private boolean isValidAddress(String addressname) {
@@ -97,12 +147,9 @@ public class Editprofileuser extends Fragment {
                 List<android.location.Address> addresses = geocoder.getFromLocationName(addressname, 1);
                 if (addresses != null) {
 
-                    final Double Latitude = addresses.get(0).getLatitude();
-                    final Double Longitude = addresses.get(0).getLongitude();
-                    final String areaname1 = addresses.get(0).getAddressLine(0);
-                    final String city1 = addresses.get(0).getLocality();
-                    final String state1 = addresses.get(0).getAdminArea();
-                    final String country1 = addresses.get(0).getCountryName();
+                     Latitude = addresses.get(0).getLatitude();
+                     Longitude = addresses.get(0).getLongitude();
+
 
 //           Toast.makeText(RegisterActivity.this, "Latitude"+location.getLatitude()+"Longtitude"+location.getLongitude(), Toast.LENGTH_SHORT).show();
                 }
@@ -114,21 +161,8 @@ public class Editprofileuser extends Fragment {
             return false;
         }
     }
-    public  boolean isValidPassword(String s2){
-        if(s2!=null &&s2.length()>6){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    public boolean isValidConfirmPassword(String s){
-        String s1=Password.getText().toString();
-        if(s1.equalsIgnoreCase(s)){return  true;}
-        else{
-            return false;
-        }
-    }
+
+
     public boolean isValidEmail(String s1){
         String Email_Pattern="^[A-Z a-z 0-9]+\\@+[A-Z a-z 0-9]+\\.+[A-Z a-z 0-9]{2,}$";
         Pattern p=Pattern.compile(Email_Pattern);

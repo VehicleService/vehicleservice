@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         refreshToken=FirebaseInstanceId.getInstance().getToken();
-        Log.d("Token",refreshToken);
+    //    Log.d("Token",refreshToken);
         instanceID =refreshToken;
         sessionManager.putId(refreshToken);
 
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                         boolean isExists=false;
                         for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                             if(Email.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())){
-                                Toast.makeText(LoginActivity.this, "Successfull", Toast.LENGTH_SHORT).show();
+                             //   Toast.makeText(LoginActivity.this, "Successfull", Toast.LENGTH_SHORT).show();
                                 isExists=true;
                                 Log.d("Key",snapshot.getKey());
                                sessionManager.writeStatus(true);
@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                         }if(!isExists){
-                            Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -199,7 +199,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     email2=input.getText().toString();
-                    forgotpassword();
+                       forgotpassword();
 
                 }
             });
@@ -223,7 +223,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
-                Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(LoginActivity.this, response, Toast.LENGTH_SHORT).show();
 
             }
         }, new Response.ErrorListener() {
@@ -326,7 +326,7 @@ public class LoginActivity extends AppCompatActivity {
                         service2=data3.getString("service_type");
                         sessionManager.putapidata(String.valueOf(id),email1,sessionid,sid1,service1,sid2,service2,vid1,vehicle1,vid2,vehicle2);
                         sessionManager.writeStatus(true);
-                        Toast.makeText(LoginActivity.this, email1+id+sessionid+array+array1, Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(LoginActivity.this, email1+id+sessionid+array+array1, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

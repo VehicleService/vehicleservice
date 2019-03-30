@@ -11,7 +11,10 @@
 <RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/relativefeedback">
+    android:id="@+id/relativefeedback"
+    android:visibility="invisible"
+    android:layout_gravity="center"
+    android:gravity="center">
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,4 +63,48 @@
         android:layout_marginLeft="10dp"
         style="@style/Widget.AppCompat.Button.Colored"/>
 </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/payment"
+        android:visibility="visible"
+        android:layout_gravity="center"
+        android:gravity="center">
+        <com.stripe.android.view.CardInputWidget
+            android:id="@+id/card_input_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount:"
+            android:id="@+id/txtamount"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/card_input_widget"
+            android:textColor="#000000"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="amount"
+            android:id="@+id/etxtamount"
+            android:layout_toRightOf="@+id/txtamount"
+            android:layout_below="@+id/card_input_widget"
+            android:layout_marginTop="50dp"
+            />
+
+        <Button
+            android:layout_below="@+id/etxtamount"
+            android:id="@+id/btnpay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="submit"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </RelativeLayout>
 </FrameLayout>

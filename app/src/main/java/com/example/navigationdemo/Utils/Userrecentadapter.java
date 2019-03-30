@@ -1,5 +1,7 @@
 package com.example.navigationdemo.Utils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.navigationdemo.GarageActivity.TrackUserActivity;
 import com.example.navigationdemo.Pojo.UserRecent;
 import com.example.navigationdemo.R;
 
@@ -17,10 +20,12 @@ import java.util.List;
 
 public class Userrecentadapter extends RecyclerView.Adapter<Userrecentadapter.myViewHolder> {
     List<UserRecent> userRecent;
+    Context context;
     public class myViewHolder extends RecyclerView.ViewHolder{
         TextView appname,time,username,data;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
+            context=itemView.getContext();
             appname=(TextView)itemView.findViewById(R.id.rAppname);
             time=(TextView)itemView.findViewById(R.id.rTime);
             username=(TextView)itemView.findViewById(R.id.rUsername);
@@ -45,6 +50,8 @@ public class Userrecentadapter extends RecyclerView.Adapter<Userrecentadapter.my
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), ""+myViewHolder.username.getText(), Toast.LENGTH_SHORT).show();
+                Intent i=new Intent(v.getContext(),TrackUserActivity.class);
+                context.startActivity(i);
             }
         });
         UserRecent u=userRecent.get(i);

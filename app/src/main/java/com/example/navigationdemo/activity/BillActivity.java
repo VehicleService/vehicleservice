@@ -97,7 +97,7 @@ public class BillActivity extends AppCompatActivity {
             public void onResponse(String response) {
 
                 Log.d("data",response);
-                Toast.makeText(BillActivity.this, response, Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(BillActivity.this, response, Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

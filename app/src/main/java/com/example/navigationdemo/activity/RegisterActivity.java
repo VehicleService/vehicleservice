@@ -263,7 +263,7 @@ public class RegisterActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Toast.makeText(RegisterActivity.this, "Authentication done", Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(RegisterActivity.this, "Authentication done", Toast.LENGTH_SHORT).show();
             }
         });
 
