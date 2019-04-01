@@ -28,6 +28,7 @@ public class DirectionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i=new Intent(DirectionActivity.this,LoginActivity.class);
                 startActivity(i);
+                finish();
 
             }
         });
@@ -36,8 +37,10 @@ public class DirectionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i=new Intent(DirectionActivity.this,LoginActivityG.class);
                 startActivity(i);
+                finish();
             }
         });
 
     }
+
 }

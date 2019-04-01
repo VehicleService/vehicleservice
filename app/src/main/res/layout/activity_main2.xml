@@ -9,6 +9,7 @@
     tools:openDrawer="start"
     android:background="@color/background"
     android:layout_gravity="center"
+
     >
 
 
@@ -16,6 +17,7 @@
         layout="@layout/app_bar_main2"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
@@ -26,7 +28,9 @@
 
 
         app:itemTextColor="#000000"
+
         app:itemIconTint="#000000"
+
         app:headerLayout="@layout/nav_header_main2"
         app:menu="@menu/activity_main_drawer2" />
 

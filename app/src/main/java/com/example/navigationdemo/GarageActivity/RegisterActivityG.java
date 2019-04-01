@@ -67,7 +67,7 @@ public class RegisterActivityG extends AppCompatActivity {
 
 
     Button submit;
-    EditText Username,PhoneNumber,Email,Password,Confirmpassword;
+    EditText Username,PhoneNumber,Email,Password,Confirmpassword,Gumastano;
     FirebaseDatabase instance;
     DatabaseReference reference;
 
@@ -172,8 +172,9 @@ public class RegisterActivityG extends AppCompatActivity {
         Email=(EditText)findViewById(R.id.etxtEmail);
         Password=(EditText)findViewById(R.id.etxtPassword);
         Confirmpassword=(EditText)findViewById(R.id.etxtConfirmpassword);
-        instance=FirebaseDatabase.getInstance();
-        reference=instance.getReference("GarageDetails");
+       // instance=FirebaseDatabase.getInstance();
+        Gumastano=(EditText)findViewById(R.id.gumastano);
+        //reference=instance.getReference("GarageDetails");
 
         submit.setOnClickListener(new View.OnClickListener() {
 
@@ -202,7 +203,13 @@ public class RegisterActivityG extends AppCompatActivity {
                 } else if (!isValidConfirmPassword(Confirmpassword.getText().toString())) {
                         Confirmpassword.setError("Password Should Match With Above PassWord");
                         Password.setText("");
-                    } else {
+                    }
+                    else if(Gumastano.getText().toString().isEmpty()){
+                    Gumastano.setError("Enter Gumasta License No.");
+                    Gumastano.setText("");
+
+                }
+                        else {
 //                        reference.addValueEventListener(new ValueEventListener() {
 //                            @Override
 //                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -262,39 +269,39 @@ public class RegisterActivityG extends AppCompatActivity {
 
     //     }
     //}
-    public void setUserdata() {
-        key=reference.push().getKey();
-        Garage user=new Garage(Username.getText().toString(),PhoneNumber.getText().toString(),Email.getText().toString(),Password.getText().toString(),"","","",lat,lan);
-
-        reference.child(key).setValue(user);
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-              //  Toast.makeText(RegisterActivityG.this, "Authentication done", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Log.d("Success","Lat"+lat+"Lan"+lan);
-        //reference.child(key).child("lat").setValue(lat);
-        // reference.child(key).child("lon").setValue(lan);
-
-
-        reference.child(key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Garage d = dataSnapshot.getValue(Garage.class);
-                if (d != null) {
-                    // Log.e("Status", d.username);
-//                    Intent i=new Intent(RegisterActivityG.this,LoginActivityG.class);
-//                    startActivity(i);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//    public void setUserdata() {
+//        key=reference.push().getKey();
+//        Garage user=new Garage(Username.getText().toString(),PhoneNumber.getText().toString(),Email.getText().toString(),Password.getText().toString(),"","","",lat,lan);
+//
+//        reference.child(key).setValue(user);
+//        FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//              //  Toast.makeText(RegisterActivityG.this, "Authentication done", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        Log.d("Success","Lat"+lat+"Lan"+lan);
+//        //reference.child(key).child("lat").setValue(lat);
+//        // reference.child(key).child("lon").setValue(lan);
+//
+//
+//        reference.child(key).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Garage d = dataSnapshot.getValue(Garage.class);
+//                if (d != null) {
+//                    // Log.e("Status", d.username);
+////                    Intent i=new Intent(RegisterActivityG.this,LoginActivityG.class);
+////                    startActivity(i);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
 
@@ -325,7 +332,7 @@ public class RegisterActivityG extends AppCompatActivity {
 //        }
 
 
-    }
+    //}
 
 
     private void startLocationUpdates() {
@@ -470,11 +477,16 @@ public class RegisterActivityG extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.d("response",response);
                 if (response.contentEquals("error_email_exist")){
                     Toast.makeText(RegisterActivityG.this, "Email Exists", Toast.LENGTH_SHORT).show();
 
                 }
-                else{
+                else if(response.equals("INVALID_GARAGE_NO")){
+                    Toast.makeText(RegisterActivityG.this, "Enter valid gumasta no", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
                     Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
                     Intent i=new Intent(RegisterActivityG.this,LoginActivityG.class);
                     startActivity(i);
@@ -497,6 +509,7 @@ public class RegisterActivityG extends AppCompatActivity {
                 params.put("latitude",String.valueOf(lat));
                 params.put("longitude",String.valueOf(lan));
                 params.put("instance_id",instanceId);
+                params.put("garage_no",Gumastano.getText().toString());
                 return params;
             }
         };

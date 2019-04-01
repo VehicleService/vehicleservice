@@ -95,8 +95,8 @@ public class UserdetailsActivity extends AppCompatActivity {
 
     private void accepted() {
         Log.d("confirm",data.get("id")+vehicle+service+notification.getUserid());
-        String Url=appendToUrl(uploadurl,getParams(1));
-        StringRequest stringRequest=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+        //String Url=appendToUrl(uploadurl,getParams(1));
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,uploadurl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -110,16 +110,9 @@ public class UserdetailsActivity extends AppCompatActivity {
                 Log.d("error",""+error.getMessage());
                 Toast.makeText(UserdetailsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
-        Intent i=new Intent(UserdetailsActivity.this,Main2Activity.class);
-        startActivity(i);
-    }
-    public HashMap<String, String> getParams(int a) {
-        if(a==1){
-        HashMap<String, String> params = new HashMap<>();
+        }){
+           public   HashMap<String,String> getParams(){
+            HashMap<String, String> params = new HashMap<>();
         params.put("garage_id",data.get("id"));
         params.put("user_id",notification.getUserid());
         params.put("vehicle_id",vehicle);
@@ -128,19 +121,30 @@ public class UserdetailsActivity extends AppCompatActivity {
         params.put("latitude","");
         params.put("longitude","");
         return params;}
-        else{ HashMap<String, String> params = new HashMap<>();
-            params.put("garage_id",data.get("id"));
-            params.put("user_id",notification.getUserid());
-            params.put("vehicle_id",vehicle);
-            params.put("service_id",service);
-            params.put("notification_type_id",String.valueOf(3));
-            params.put("latitude","");
-            params.put("longitude","");
-            return params;
-
-        }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
+        Intent i=new Intent(UserdetailsActivity.this,Main2Activity.class);
+        startActivity(i);
     }
-
+//    public HashMap<String, String> getParams(int a) {
+//    if (a==1){
+//       }
+//        else {
+//        HashMap<String, String> params = new HashMap<>();
+//        params.put("garage_id", data.get("id"));
+//        params.put("user_id", notification.getUserid());
+//        params.put("vehicle_id", vehicle);
+//        params.put("service_id", service);
+//        params.put("notification_type_id", String.valueOf(3));
+//        params.put("latitude", "");
+//        params.put("longitude", "");
+//        return params;
+//
+//    }
+//    }
+//
 
 
     public static String appendToUrl(String url, HashMap<String, String> parameters) {
@@ -170,8 +174,8 @@ public class UserdetailsActivity extends AppCompatActivity {
     }
 
     private void denied(){
-        String Url=appendToUrl(uploadurl,getParams(2));
-        StringRequest stringRequest=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+      //  String Url=appendToUrl(uploadurl,getParams(2));
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,uploadurl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -185,7 +189,15 @@ public class UserdetailsActivity extends AppCompatActivity {
                 Log.d("error",""+error.getMessage());
                 Toast.makeText(UserdetailsActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){public HashMap<String, String> getParams() { HashMap<String, String> params = new HashMap<>();
+            params.put("garage_id",data.get("id"));
+            params.put("user_id",notification.getUserid());
+            params.put("vehicle_id",vehicle);
+            params.put("service_id",service);
+            params.put("notification_type_id",String.valueOf(3));
+            params.put("latitude","");
+            params.put("longitude","");
+            return params;}};
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);

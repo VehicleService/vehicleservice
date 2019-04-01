@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Looper;
@@ -16,6 +18,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.navigationdemo.BuildConfig;
@@ -36,6 +42,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,8 +55,10 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class TrackUserActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -71,13 +81,17 @@ public class TrackUserActivity extends FragmentActivity implements OnMapReadyCal
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 101;
     private GoogleMap mMap;
 
+    LatLng location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_user);
 
-
+        String lat= (String) getIntent().getSerializableExtra("lat");
+        String lon= (String) getIntent().getSerializableExtra("lon");
+        Log.d("location",lat+lon);
+        location=new LatLng(Double.valueOf(lat),Double.valueOf(lon));
         SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
@@ -286,6 +300,19 @@ public class TrackUserActivity extends FragmentActivity implements OnMapReadyCal
                     MY_PERMISSIONS_REQUEST_LOCATION);
 
         }
+
+        Marker marker=mMap.addMarker(new MarkerOptions().position(location).title("place"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        Geocoder geocoder=new Geocoder(TrackUserActivity.this);
+        try {
+            List<Address> add=geocoder.getFromLocation(location.latitude,location.longitude,1);
+            marker.setSnippet(add.get(0).getAddressLine(0));
+        } catch (Exception e) {
+           Log.d("Exception",e.getMessage());
+        }
+
+
+
     }
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);

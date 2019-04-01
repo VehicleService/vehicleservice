@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.android.volley.Request.Method.DELETE;
+import static com.android.volley.Request.Method.GET;
+import static com.android.volley.Request.Method.POST;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,7 +64,7 @@ public class Exit extends Fragment {
               //  Toast.makeText(getActivity(), "Your account will be deleted in 1 hour", Toast.LENGTH_SHORT).show();
                 try {
                     uploadData();
-                    Exit.this.wait(300);
+                  //  Exit.this.wait(300);
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), ""+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -86,9 +88,9 @@ public class Exit extends Fragment {
     }
 
     private void uploadData() {
-        String Url=appendToUrl(uploadUrl,getParams());
+       // String Url=appendToUrl(uploadUrl,getParams());
         Log.d("id",data.get("id"));
-        StringRequest stringRequest=new StringRequest(DELETE, Url, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,uploadUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
@@ -101,39 +103,39 @@ public class Exit extends Fragment {
                 Log.d("response",error.getMessage());
                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){ protected HashMap<String, String> getParams(){
+            HashMap<String, String> params = new HashMap<>();
+            params.put("id",data.get("id"));
+
+            return params;}};
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getContext()).addToRequestQueue(stringRequest);
     }
 
-    protected HashMap<String, String> getParams(){
-        HashMap<String, String> params = new HashMap<>();
-        params.put("id",data.get("id"));
-
-        return params;}
-    public static String appendToUrl(String url, HashMap<String, String> parameters) {
-        try {
-            URI uri = new URI(url);
-            String query = uri.getQuery();
-            StringBuilder builder = new StringBuilder();
-            if (query != null)
-                builder.append(query);
-
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String keyValueParam = entry.getKey() + "=" + entry.getValue();
-                if (!builder.toString().isEmpty())
-                    builder.append("&");
-
-                builder.append(keyValueParam);
-            }
-
-            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
-            return newUri.toString();
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
+//
+//    public static String appendToUrl(String url, HashMap<String, String> parameters) {
+//        try {
+//            URI uri = new URI(url);
+//            String query = uri.getQuery();
+//            StringBuilder builder = new StringBuilder();
+//            if (query != null)
+//                builder.append(query);
+//
+//            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+//                String keyValueParam = entry.getKey() + "=" + entry.getValue();
+//                if (!builder.toString().isEmpty())
+//                    builder.append("&");
+//
+//                builder.append(keyValueParam);
+//            }
+//
+//            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
+//            return newUri.toString();
+//
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        return url;
+//    }
 }

@@ -1,5 +1,7 @@
 package com.example.navigationdemo.GarageActivity;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,8 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.navigationdemo.Fragments.Home;
@@ -20,6 +25,11 @@ import com.example.navigationdemo.GarageFragments.Editprofile;
 import com.example.navigationdemo.GarageFragments.Exit;
 import com.example.navigationdemo.GarageFragments.MyService;
 import com.example.navigationdemo.R;
+import com.example.navigationdemo.Utils.SessionManager1;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -29,12 +39,19 @@ public class Main2Activity extends AppCompatActivity
     NavigationView navigationView;
 
 
+    TextView name,phone,email,address;
+
+    SessionManager1 sessionManager1;
+    HashMap<String,String> profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        sessionManager1=new SessionManager1(Main2Activity.this);
+        profile=sessionManager1.getprofile();
 
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -54,7 +71,7 @@ public class Main2Activity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(2).setActionView(R.layout.notification_dot);
+       // navigationView.getMenu().getItem(2).setActionView(R.layout.notification_dot);
 
 //        if (savedInstanceState == null) {
 //
@@ -63,6 +80,22 @@ public class Main2Activity extends AppCompatActivity
 //            setToolbarTitle("Home");
 //            loadHomeFragment(0);
 //        }
+        name=(TextView)findViewById(R.id.txtname);
+        email=(TextView)findViewById(R.id.etxtemail);
+        phone=(TextView)findViewById(R.id.etxtphone);
+        address=(TextView)findViewById(R.id.etxtaddress);
+
+        name.setText(profile.get("name"));
+        email.setText(profile.get("Email"));
+        phone.setText(profile.get("phone"));
+        Geocoder geocoder=new Geocoder(Main2Activity.this);
+        try {
+            List<Address> add=geocoder.getFromLocation(Double.valueOf(profile.get("lat")),Double.valueOf(profile.get("lon")),1);
+            address.setText(add.get(0).getAddressLine(0));
+        } catch (Exception e) {
+            Log.d("Exception",e.getMessage());
+        }
+
     }
 
     @Override

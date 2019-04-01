@@ -14,6 +14,23 @@ public class SessionManager1 {
         sharedPreferences=context.getSharedPreferences("RegisteredData",0);
         editor=sharedPreferences.edit();
     }
+     public void  setprofile(String name,String phone,String email,String lat,String lon){
+        editor.putString("name",name);
+        editor.putString("phone",phone);
+        editor.putString("Email",email);
+        editor.putString("lat",lat);
+        editor.putString("lon",lon);
+        editor.commit();
+    }
+     public HashMap<String,String> getprofile(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("name",sharedPreferences.getString("name",null));
+        data.put("phone",sharedPreferences.getString("phone",null));
+        data.put("Email",sharedPreferences.getString("Email",null));
+        data.put("lat",sharedPreferences.getString("lat",null));
+        data.put("lon",sharedPreferences.getString("lon",null));
+        return data;
+    }
     public void putData(String key,String name,String password){
         editor.putString("Key",key);
         editor.putString("Name",name);

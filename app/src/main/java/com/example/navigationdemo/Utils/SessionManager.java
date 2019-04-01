@@ -15,6 +15,36 @@ public class SessionManager {
         sharedPreferences=context.getSharedPreferences("RegisteredData",Context.MODE_PRIVATE);
         editor=sharedPreferences.edit();
     }
+    public void setcost(String status,String cost,String garageid){
+        editor.putString("coststatus",status);
+        editor.putString("cost",cost);
+        editor.putString("garageid",garageid);
+        editor.commit();
+    }
+    public HashMap<String,String> getcost(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("coststatus",sharedPreferences.getString("coststatus",null));
+        data.put("cost",sharedPreferences.getString("cost",null));
+        data.put("garageid",sharedPreferences.getString("garageid",null));
+        return data;
+    }
+    public void  setprofile(String name,String phone,String email,String lat,String lon){
+        editor.putString("name",name);
+        editor.putString("phone",phone);
+        editor.putString("Email",email);
+        editor.putString("lat",lat);
+        editor.putString("lon",lon);
+        editor.commit();
+    }
+    public HashMap<String,String> getprofile(){
+        HashMap<String,String> data=new HashMap<>();
+        data.put("name",sharedPreferences.getString("name",null));
+        data.put("phone",sharedPreferences.getString("phone",null));
+        data.put("Email",sharedPreferences.getString("Email",null));
+        data.put("lat",sharedPreferences.getString("lat",null));
+        data.put("lon",sharedPreferences.getString("lon",null));
+        return data;
+    }
     public void putData(String key,String name,String password){
        editor.putString("Key",key);
         editor.putString("Name",name);

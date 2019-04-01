@@ -97,12 +97,12 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         setTitle("Register");
-        instance=FirebaseDatabase.getInstance();
+       // instance=FirebaseDatabase.getInstance();
         city=instance.getReference("City");
         state=instance.getReference("State");
         country=instance.getReference("Country");
         area=instance.getReference("Area");
-        reference=instance.getReference("UserDetails");
+       // reference=instance.getReference("UserDetails");
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
 //
 //                            }
 //                            if(!isExists)
-                                setUserdata();
+                              //  setUserdata();
 //
 //                        }
 //
@@ -248,42 +248,42 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void setUserdata() {
-        uploadData();
-        String key=reference.push().getKey();
-        userName = Username.getText().toString();
-        pass = Password.getText().toString();
-        email = Email.getText().toString();
-        phone = PhoneNumber.getText().toString();
-
-        User user=new User(userName,phone ,email,
-                pass,"","","","","",Areakey);
-
-        reference.child(key).setValue(user);
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-             //   Toast.makeText(RegisterActivity.this, "Authentication done", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        reference.child(key).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User d = dataSnapshot.getValue(User.class);
-                if (d != null)
-                    Log.e("Status", d.username);
-//                Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
-//                startActivity(i);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
+//    public void setUserdata() {
+//        uploadData();
+//        String key=reference.push().getKey();
+//        userName = Username.getText().toString();
+//        pass = Password.getText().toString();
+//        email = Email.getText().toString();
+//        phone = PhoneNumber.getText().toString();
+//
+//        User user=new User(userName,phone ,email,
+//                pass,"","","","","",Areakey);
+//
+//        reference.child(key).setValue(user);
+//        FirebaseAuth.getInstance().createUserWithEmailAndPassword(Email.getText().toString(),Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//             //   Toast.makeText(RegisterActivity.this, "Authentication done", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        reference.child(key).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                User d = dataSnapshot.getValue(User.class);
+//                if (d != null)
+//                    Log.e("Status", d.username);
+////                Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
+////                startActivity(i);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//    }
 
 
     public  boolean isValidPassword(String s2){

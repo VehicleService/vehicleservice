@@ -1,6 +1,7 @@
 package com.example.navigationdemo.GarageFragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,10 +19,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.navigationdemo.GarageActivity.Main2Activity;
 import com.example.navigationdemo.GarageActivity.RegisterActivityG;
 import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager1;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,11 +46,11 @@ public class Editprofile extends Fragment {
 
 
     HashMap<String,String> data;
-
+    HashMap<String,String> profile;
     SessionManager1 sessionManager1;
 
 
-    String uploadURL = "http://cas.mindhackers.org/vehicle-service-booking/public/api/userupdateprofile";
+    String uploadURL = "http://cas.mindhackers.org/vehicle-service-booking/public/api/garageupdateprofile";
 
 
 
@@ -70,6 +73,10 @@ public class Editprofile extends Fragment {
 
         sessionManager1=new SessionManager1(getContext());
         data=sessionManager1.getapidata();
+        profile=sessionManager1.getprofile();
+        Username.setText(profile.get("name"));
+        PhoneNumber.setText(profile.get("phone"));
+        Email.setText(profile.get("Email"));
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +108,8 @@ public class Editprofile extends Fragment {
 
                 Log.d("response",response);
                 Toast.makeText(getContext(),  "Profile Updated", Toast.LENGTH_LONG).show();
-
+                Intent intent=new Intent(getActivity(),Main2Activity.class);
+                startActivity(intent);
 
 
             }

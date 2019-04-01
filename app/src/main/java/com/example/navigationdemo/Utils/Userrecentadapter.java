@@ -22,14 +22,15 @@ public class Userrecentadapter extends RecyclerView.Adapter<Userrecentadapter.my
     List<UserRecent> userRecent;
     Context context;
     public class myViewHolder extends RecyclerView.ViewHolder{
-        TextView appname,time,username,data;
+        TextView time,username,data,phone;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             context=itemView.getContext();
-            appname=(TextView)itemView.findViewById(R.id.rAppname);
+
             time=(TextView)itemView.findViewById(R.id.rTime);
             username=(TextView)itemView.findViewById(R.id.rUsername);
             data=(TextView)itemView.findViewById(R.id.rData);
+            phone=(TextView)itemView.findViewById(R.id.phone);
         }
     }
 
@@ -46,19 +47,22 @@ public class Userrecentadapter extends RecyclerView.Adapter<Userrecentadapter.my
 
     @Override
     public void onBindViewHolder(@NonNull final Userrecentadapter.myViewHolder myViewHolder, int i) {
+       final UserRecent u=userRecent.get(i);
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), ""+myViewHolder.username.getText(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(v.getContext(), ""+myViewHolder.username.getText()+""+u.getLatitude()+u.getLongitude(), Toast.LENGTH_SHORT).show();
                 Intent i=new Intent(v.getContext(),TrackUserActivity.class);
+                i.putExtra("lat",u.getLatitude());
+                i.putExtra("lon",u.getLongitude());
                 context.startActivity(i);
             }
         });
-        UserRecent u=userRecent.get(i);
-        myViewHolder.appname.setText("Vehicle Service Booking");
-        myViewHolder.time.setText(new SimpleDateFormat("HH:mm:ss a dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+
         myViewHolder.username.setText(u.getUsername());
+        myViewHolder.time.setText(u.getTime());
         myViewHolder.data.setText(u.getData());
+        myViewHolder.phone.setText(u.getPhone());
     }
 
     @Override

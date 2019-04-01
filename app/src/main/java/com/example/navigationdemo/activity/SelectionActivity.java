@@ -67,10 +67,10 @@ public class SelectionActivity extends AppCompatActivity {
         submit = (Button) findViewById(R.id.btnSubmit);
         vehicletype = (RadioGroup) findViewById(R.id.rgVehicleType);
         serviceType = (RadioGroup) findViewById(R.id.rgServiceType);
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        referencev = firebaseDatabase.getReference("VehicleType");
-        references = firebaseDatabase.getReference("ServiceType");
-        reference = firebaseDatabase.getReference("UserDetails");
+//        firebaseDatabase = FirebaseDatabase.getInstance();
+//        referencev = firebaseDatabase.getReference("VehicleType");
+//        references = firebaseDatabase.getReference("ServiceType");
+//        reference = firebaseDatabase.getReference("UserDetails");
         sessionManager = new SessionManager(SelectionActivity.this);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,38 +103,38 @@ public class SelectionActivity extends AppCompatActivity {
                     }
                     sessionManager.setserveh(String.valueOf(service_id),String.valueOf(vehicle_id));
                     uploadData();
-                    referencev.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                if (vtype.getText().toString().equalsIgnoreCase(snapshot.child("type").getValue().toString())) {
-                                    vkey = snapshot.getKey();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                    references.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                if (stype.getText().toString().equalsIgnoreCase(snapshot.child("type").getValue().toString())) {
-                                    skey = snapshot.getKey();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+//                    referencev.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                if (vtype.getText().toString().equalsIgnoreCase(snapshot.child("type").getValue().toString())) {
+//                                    vkey = snapshot.getKey();
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                    references.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                if (stype.getText().toString().equalsIgnoreCase(snapshot.child("type").getValue().toString())) {
+//                                    skey = snapshot.getKey();
+//                                }
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
                     if (vkey != null && skey != null) {
-                        Toast.makeText(SelectionActivity.this, "data" + vkey + "" + skey, Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(SelectionActivity.this, "data" + vkey + "" + skey, Toast.LENGTH_SHORT).show();
                         sessionManager.putKeys(vkey, skey);
                         HashMap<String, String> data = sessionManager.getData();
                         String key = data.get("Key");
@@ -142,17 +142,19 @@ public class SelectionActivity extends AppCompatActivity {
                        // reference.child(key).child("servicetypeId").setValue(skey);
 
                     }
+
                 }
             }
         });
 
+
     }
 
     private void uploadData() {
-        String Url = appendToUrl(uploadurl, getParams());
-        Log.d("TAG", "uploadData: url: "+Url);
+//        String Url = appendToUrl(uploadurl, getParams());
+//        Log.d("TAG", "uploadData: url: "+Url);
        // Toast.makeText(this, service_id + "" + vehicle_id, Toast.LENGTH_SHORT).show();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, uploadurl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response", response);
@@ -177,6 +179,7 @@ public class SelectionActivity extends AppCompatActivity {
                         Log.d("array",values.toString());
                         intent.putExtra("Details",values);
                         startActivity(intent);
+                        finish();
 
                     } catch (Exception e) {
                         Toast.makeText(SelectionActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -194,42 +197,43 @@ public class SelectionActivity extends AppCompatActivity {
                 Log.d("error", error.getMessage());
                 Toast.makeText(SelectionActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        })
+        { public HashMap<String, String> getParams() {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("service_id", String.valueOf(service_id));
+            params.put("vehicle_id", String.valueOf(vehicle_id));
+            return params;
+        }};
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    public HashMap<String, String> getParams() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("service_id", String.valueOf(service_id));
-        params.put("vehicle_id", String.valueOf(vehicle_id));
-        return params;
-    }
 
-    public static String appendToUrl(String url, HashMap<String, String> parameters) {
-        try {
-            URI uri = new URI(url);
-            String query = uri.getQuery();
-            StringBuilder builder = new StringBuilder();
 
-            if (query != null)
-                builder.append(query);
-
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String keyValueParam = entry.getKey() + "=" + entry.getValue();
-                if (!builder.toString().isEmpty())
-                    builder.append("&");
-
-                builder.append(keyValueParam);
-            }
-
-            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
-            return newUri.toString();
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
+//    public static String appendToUrl(String url, HashMap<String, String> parameters) {
+//        try {
+//            URI uri = new URI(url);
+//            String query = uri.getQuery();
+//            StringBuilder builder = new StringBuilder();
+//
+//            if (query != null)
+//                builder.append(query);
+//
+//            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+//                String keyValueParam = entry.getKey() + "=" + entry.getValue();
+//                if (!builder.toString().isEmpty())
+//                    builder.append("&");
+//
+//                builder.append(keyValueParam);
+//            }
+//
+//            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
+//            return newUri.toString();
+//
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        return url;
+//    }
 }

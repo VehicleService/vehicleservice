@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
     String email1,sessionid,sid1,sid2,service1,service2,vid1,vid2,vehicle1,vehicle2,email2;
     JSONArray array,array1;
     int id;
-    String refreshToken;
+    String refreshToken,name,phone,latitude,longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +105,8 @@ public class LoginActivity extends AppCompatActivity {
         forgetpassword=(TextView)findViewById(R.id.txtNewUser);
         Email=(EditText)findViewById(R.id.etxtEmail);
         PassWord=(EditText)findViewById(R.id.etxtPassword);
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        reference=firebaseDatabase.getReference("UserDetails");
+       // firebaseDatabase=FirebaseDatabase.getInstance();
+        //reference=firebaseDatabase.getReference("UserDetails");
 
         setTitle("Login");
         register.setOnClickListener(new View.OnClickListener() {
@@ -132,23 +132,24 @@ public class LoginActivity extends AppCompatActivity {
                     PassWord.setError("Enter PassWord");
                 }else{
 
-                    uploadData();}
-               reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        boolean isExists=false;
-                        for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                            if(Email.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())){
-                             //   Toast.makeText(LoginActivity.this, "Successfull", Toast.LENGTH_SHORT).show();
-                                isExists=true;
-                                Log.d("Key",snapshot.getKey());
-                               sessionManager.writeStatus(true);
-                                sessionManager.putData(snapshot.getKey(),snapshot.child("username").getValue().toString()
-                                        ,snapshot.child("password").getValue().toString());
-                                HashMap<String,String> userData=sessionManager.getData();
-                                String instanceId=userData.get("InstanceId");
-                                reference.child(snapshot.getKey()).child("instanceId").setValue(instanceId);
-                                email = Email.getText().toString();
+                    uploadData();
+                }
+//           //    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        boolean isExists=false;
+//                        for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+//                            if(Email.getText().toString().equalsIgnoreCase(snapshot.child("email").getValue().toString())){
+//                             //   Toast.makeText(LoginActivity.this, "Successfull", Toast.LENGTH_SHORT).show();
+//                                isExists=true;
+//                                Log.d("Key",snapshot.getKey());
+                              // sessionManager.writeStatus(true);
+//                                sessionManager.putData(snapshot.getKey(),snapshot.child("username").getValue().toString()
+//                                        ,snapshot.child("password").getValue().toString());
+//                                HashMap<String,String> userData=sessionManager.getData();
+//                                String instanceId=userData.get("InstanceId");
+//                                reference.child(snapshot.getKey()).child("instanceId").setValue(instanceId);
+//                                email = Email.getText().toString();
 //                                pass = PassWord.getText().toString();
 //                                FirebaseAuth.getInstance().signInWithEmailAndPassword(email , pass).addOnCompleteListener(LoginActivity.this,new OnCompleteListener<AuthResult>() {
 //                                    @Override
@@ -161,27 +162,27 @@ public class LoginActivity extends AppCompatActivity {
 //                                    }
 //
 //                                });
-                                            Intent i=new Intent(LoginActivity.this,SelectionActivity.class);
-                                            startActivity(i);
+                                         //   Intent i=new Intent(LoginActivity.this,SelectionActivity.class);
+                                         //   startActivity(i);
 //
 //                                      FirebaseUser user=  FirebaseAuth.getInstance().getCurrentUser();
 //                                  AuthCredential credential=EmailAuthCredential.isSignInWithEmailLink(Email.getText().toString());
 //                                  credential.
 
 
-                            }
+                         //   }
 
-                        }if(!isExists){
+                        //if(!isExists){
                            // Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
 
-                        }
-                    }
+                       // }
+                  //  }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.d("", "onCancelled: "+databaseError.getDetails());
-                    }
-                });
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        Log.d("", "onCancelled: "+databaseError.getDetails());
+//                    }
+//                });
 
             }
         });
@@ -217,9 +218,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void forgotpassword() {
-        String Url=appendToUrl(forgeturl,getParams());
+        //String Url=appendToUrl(forgeturl,getParams());
         email1=Email.getText().toString();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
@@ -231,42 +232,44 @@ public class LoginActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){protected HashMap<String, String> getParams(){
+            HashMap<String, String> params = new HashMap<>();
+            params.put("email",email2);
+
+            return params;}
+
+        };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
 
-    protected HashMap<String, String> getParams(){
-        HashMap<String, String> params = new HashMap<>();
-        params.put("email",email2);
 
-        return params;}
-    public static String appendToUrl(String url, HashMap<String, String> parameters) {
-        try {
-            URI uri = new URI(url);
-            String query = uri.getQuery();
-            StringBuilder builder = new StringBuilder();
-
-            if (query != null)
-                builder.append(query);
-
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String keyValueParam = entry.getKey() + "=" + entry.getValue();
-                if (!builder.toString().isEmpty())
-                    builder.append("&");
-
-                builder.append(keyValueParam);
-            }
-
-            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
-            return newUri.toString();
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
+//    public static String appendToUrl(String url, HashMap<String, String> parameters) {
+//        try {
+//            URI uri = new URI(url);
+//            String query = uri.getQuery();
+//            StringBuilder builder = new StringBuilder();
+//
+//            if (query != null)
+//                builder.append(query);
+//
+//            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+//                String keyValueParam = entry.getKey() + "=" + entry.getValue();
+//                if (!builder.toString().isEmpty())
+//                    builder.append("&");
+//
+//                builder.append(keyValueParam);
+//            }
+//
+//            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
+//            return newUri.toString();
+//
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        return url;
+//    }
 
     public  boolean isValidPassword(String s2){
         if(s2!=null &&s2.length()>6){
@@ -293,10 +296,15 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("TAG", "onResponse: "+response);
+              //  Log.d("TAG", "onResponse: "+response);
+                Log.d("response",response);
                 if (!response.equals(Integer.toString(-1))){
                     try {
                         JSONObject jsonObject = new JSONObject(response);
+                        name=jsonObject.getString("name");
+                        phone=jsonObject.getString("phone");
+                        latitude=jsonObject.getString("latitude");
+                        longitude=jsonObject.getString("longitude");
 
                         email1=jsonObject.getString("email");
                         id=jsonObject.getInt("id");
@@ -326,6 +334,7 @@ public class LoginActivity extends AppCompatActivity {
                         service2=data3.getString("service_type");
                         sessionManager.putapidata(String.valueOf(id),email1,sessionid,sid1,service1,sid2,service2,vid1,vehicle1,vid2,vehicle2);
                         sessionManager.writeStatus(true);
+                        sessionManager.setprofile(name,phone,email1,latitude,longitude);
                       //  Toast.makeText(LoginActivity.this, email1+id+sessionid+array+array1, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -335,7 +344,7 @@ public class LoginActivity extends AppCompatActivity {
                    // Toast.makeText(getApplicationContext(), email + pass +  response, Toast.LENGTH_LONG).show();
                     Intent i=new Intent(LoginActivity.this,SelectionActivity.class);
                    startActivity(i);
-
+                    finish();
                  //   sessionManager.writeStatus(true);
                 }else{
                     Intent intent = new Intent(LoginActivity.this, LoginActivity.class);

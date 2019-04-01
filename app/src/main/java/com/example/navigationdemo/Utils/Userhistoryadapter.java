@@ -21,14 +21,15 @@ public class Userhistoryadapter extends RecyclerView.Adapter<Userhistoryadapter.
 
     List<UserHistory> userHistoryList;
     public class MyviewHolder extends RecyclerView.ViewHolder{
-        TextView appname,time,username,data;
+        TextView time,username,data,phone;
         public MyviewHolder(@NonNull View itemView) {
             super(itemView);
 //            itemView.setOnClickListener(this);
-            appname=(TextView)itemView.findViewById(R.id.Appname);
+
             time=(TextView)itemView.findViewById(R.id.Time);
             username=(TextView)itemView.findViewById(R.id.Username);
             data=(TextView)itemView.findViewById(R.id.Data);
+            phone=(TextView)itemView.findViewById(R.id.phone);
 
         }
 //
@@ -56,17 +57,13 @@ public class Userhistoryadapter extends RecyclerView.Adapter<Userhistoryadapter.
 
     @Override
     public void onBindViewHolder(@NonNull final Userhistoryadapter.MyviewHolder myviewHolder, int i) {
-        myviewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), ""+myviewHolder.username.getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
         UserHistory user=userHistoryList.get(i);
-        myviewHolder.appname.setText("Vehicle Service Booking");
-        myviewHolder.time.setText(new SimpleDateFormat("HH:mm:ss a dd/MM/yyyy").format(Calendar.getInstance().getTime()));
+
+        myviewHolder.time.setText(user.getTime());
         myviewHolder.username.setText(user.getUsername());
         myviewHolder.data.setText(user.getData());
+        myviewHolder.phone.setText(user.getPhone());
     }
 
     @Override

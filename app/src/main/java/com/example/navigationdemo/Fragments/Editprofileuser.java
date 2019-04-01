@@ -23,9 +23,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.Pojo.Area;
+import com.example.navigationdemo.Pojo.Nearbygarages;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
 import com.example.navigationdemo.activity.LoginActivity;
+import com.example.navigationdemo.activity.MainActivity;
 import com.example.navigationdemo.activity.RegisterActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +54,9 @@ public class Editprofileuser extends Fragment {
     DatabaseReference reference;
     SessionManager sessionManager;
    Double Latitude,Longitude;
+    ArrayList<Nearbygarages> garagelist;
 
-
+    HashMap<String,String> profile;
    HashMap<String,String> data;
 
     String uploadURL = "http://cas.mindhackers.org/vehicle-service-booking/public/api/userupdateprofile";
@@ -70,11 +75,22 @@ public class Editprofileuser extends Fragment {
         Username=(EditText)v.findViewById(R.id.etxtUserName);
         PhoneNumber=(EditText)v.findViewById(R.id.etxtPhoneNumber);
         Email=(EditText)v.findViewById(R.id.etxtEmail);
-
+        garagelist= (ArrayList<Nearbygarages>)getActivity().getIntent().getSerializableExtra("Details");
         Address=(EditText)v.findViewById(R.id.etxtAddress);
 
         data=sessionManager.getapidata();
-
+        profile=sessionManager.getprofile();
+        Username.setText(profile.get("name"));
+        PhoneNumber.setText(profile.get("phone"));
+        Email.setText(profile.get("Email"));
+        Log.d("track","reach");
+        Geocoder geocoder=new Geocoder(getActivity());
+        try {
+            List<Address> add=geocoder.getFromLocation(Double.valueOf(profile.get("lat")),Double.valueOf(profile.get("lon")),1);
+            Address.setText(add.get(0).getAddressLine(0));
+        } catch (Exception e) {
+            Log.d("Exception",e.getMessage());
+        }
 
 
         submit.setOnClickListener(new View.OnClickListener() {
@@ -109,9 +125,12 @@ public class Editprofileuser extends Fragment {
             public void onResponse(String response) {
 
                 Log.d("response",response);
-                    Toast.makeText(getContext(),  "Profile Updated", Toast.LENGTH_LONG).show();
-
-
+                Toast.makeText(getContext(),  "Profile Updated", Toast.LENGTH_LONG).show();
+                sessionManager.setprofile(Username.getText().toString(),PhoneNumber.getText().toString()
+                                ,Email.getText().toString(),String.valueOf(Latitude),String.valueOf(Longitude));
+                Intent intent=new Intent(getContext(),MainActivity.class);
+                intent.putExtra("Details",garagelist);
+                getContext().startActivity(intent);
 
             }
         }, new Response.ErrorListener() {
@@ -149,6 +168,7 @@ public class Editprofileuser extends Fragment {
 
                      Latitude = addresses.get(0).getLatitude();
                      Longitude = addresses.get(0).getLongitude();
+                     sessionManager.putPerAddress(String.valueOf(Latitude),String.valueOf(Longitude));
 
 
 //           Toast.makeText(RegisterActivity.this, "Latitude"+location.getLatitude()+"Longtitude"+location.getLongitude(), Toast.LENGTH_SHORT).show();

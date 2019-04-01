@@ -8,7 +8,7 @@
             android:id="@+id/nav_myservice"
             android:icon="@drawable/ic_menu_manage"
             android:title="MyService"
-            android:onClick="@color/linkcolor"/>
+            />
 
 
         <item

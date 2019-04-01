@@ -5,15 +5,45 @@ public class UserHistory {
     String time;
     String username;
     String data;
+    String phone;
+    String latitude;
+    String longitude;
 
     public UserHistory() {
     }
 
-    public UserHistory(String appname, String time, String username, String data) {
+    public UserHistory(String appname, String time, String username, String data,String phone,String latitude,String longitude) {
         this.appname = appname;
         this.time = time;
         this.username = username;
         this.data = data;
+        this.phone=phone;
+        this.latitude=latitude;
+        this.longitude=longitude;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getAppname() {

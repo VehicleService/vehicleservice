@@ -62,7 +62,7 @@ public class PolylineActivity extends FragmentActivity implements OnMapReadyCall
 
         sessionManager=new SessionManager(PolylineActivity.this);
         locations=sessionManager.getLocations();
-        perAddress=sessionManager.getPerAddress();
+        perAddress=sessionManager.getprofile();
         tvDistanceDuration=(TextView)findViewById(R.id.tv_distance_time);
         markerpoints=new ArrayList<LatLng>();
         SupportMapFragment fm=(SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
@@ -117,7 +117,7 @@ public class PolylineActivity extends FragmentActivity implements OnMapReadyCall
          point=new LatLng(Double.valueOf(locations.get("userlat")),Double.valueOf(locations.get("userlon")));
         point1=new LatLng(Double.valueOf(locations.get("garagelat")),Double.valueOf(locations.get("garagelon")));}
         else {
-             point=new LatLng(23.082156,72.4909025);
+             point=new LatLng(Double.valueOf(perAddress.get("lat")),Double.valueOf(perAddress.get("lon")));
              point1=new LatLng(Double.valueOf(locations.get("garagelat")),Double.valueOf(locations.get("garagelon")));
         }
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,12));
@@ -292,7 +292,7 @@ public class PolylineActivity extends FragmentActivity implements OnMapReadyCall
                 lineOptions.width(2);
                 lineOptions.color(Color.RED);
             }
-            tvDistanceDuration.setText("Distance"+distance+"Duration"+duration);
+            tvDistanceDuration.setText("Distance:"+distance+"     Duration:"+duration);
             map.addPolyline(lineOptions);
         }
     }

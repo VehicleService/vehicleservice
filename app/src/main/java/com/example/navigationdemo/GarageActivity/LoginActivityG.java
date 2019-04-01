@@ -51,7 +51,7 @@ public class LoginActivityG extends AppCompatActivity {
     String forgeturl="http://cas.mindhackers.org/vehicle-service-booking/public/api/garageforgotpassword";
     String id,sessionid,email1,sid1,sid2,sid3,service1,service2,service3,vid1,vid2,vid3,vehicle1,vehicle2,vehicle3,email2;
     JSONArray array1,array;
-    String refreshToken;
+    String refreshToken,name,phone,latitude,longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +79,8 @@ public class LoginActivityG extends AppCompatActivity {
         forgetpassword=(TextView)findViewById(R.id.txtNewUser);
         Email=(EditText)findViewById(R.id.etxtEmail);
         PassWord=(EditText)findViewById(R.id.etxtPassword);
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        reference=firebaseDatabase.getReference("GarageDetails");
+       // firebaseDatabase=FirebaseDatabase.getInstance();
+       // reference=firebaseDatabase.getReference("GarageDetails");
         sessionManager1=new SessionManager1(LoginActivityG.this);
        sessionManager1.putId(refreshToken);
         register.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,8 @@ public class LoginActivityG extends AppCompatActivity {
                 } else if(!isValidPassword(PassWord.getText().toString())){
                     PassWord.setError("Enter PassWord");
                 }else{
-                uploadData();}
+                uploadData();
+                    }
 //
 //                reference.addListenerForSingleValueEvent(new ValueEventListener() {
 //                    @Override
@@ -186,12 +187,13 @@ public class LoginActivityG extends AppCompatActivity {
             }
         });
 
+
     }
 
     private void forgotpassword() {
-        String Url=appendToUrl(forgeturl,getParams());
+       // String Url=appendToUrl(forgeturl,getParams());
         email1=Email.getText().toString();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, Url, new Response.Listener<String>() {
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
@@ -203,41 +205,41 @@ public class LoginActivityG extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(LoginActivityG.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){ protected HashMap<String, String> getParams(){
+            HashMap<String, String> params = new HashMap<>();
+            params.put("email",email2);
+
+            return params;}};
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
-    protected HashMap<String, String> getParams(){
-        HashMap<String, String> params = new HashMap<>();
-        params.put("email",email2);
 
-        return params;}
-    public static String appendToUrl(String url, HashMap<String, String> parameters) {
-        try {
-            URI uri = new URI(url);
-            String query = uri.getQuery();
-            StringBuilder builder = new StringBuilder();
-
-            if (query != null)
-                builder.append(query);
-
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String keyValueParam = entry.getKey() + "=" + entry.getValue();
-                if (!builder.toString().isEmpty())
-                    builder.append("&");
-
-                builder.append(keyValueParam);
-            }
-
-            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
-            return newUri.toString();
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
+//    public static String appendToUrl(String url, HashMap<String, String> parameters) {
+//        try {
+//            URI uri = new URI(url);
+//            String query = uri.getQuery();
+//            StringBuilder builder = new StringBuilder();
+//
+//            if (query != null)
+//                builder.append(query);
+//
+//            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+//                String keyValueParam = entry.getKey() + "=" + entry.getValue();
+//                if (!builder.toString().isEmpty())
+//                    builder.append("&");
+//
+//                builder.append(keyValueParam);
+//            }
+//
+//            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
+//            return newUri.toString();
+//
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        return url;
+//    }
 
     public  boolean isValidPassword(String s2){
         if(s2!=null &&s2.length()>6){
@@ -264,9 +266,15 @@ public class LoginActivityG extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, uploadURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+              //  Toast.makeText(LoginActivityG.this, response, Toast.LENGTH_SHORT).show();
+                Log.d("response",response);
                 if(!response.equals(Integer.toString(-1))){
                     try{
                         JSONObject jsonObject=new JSONObject(response);
+                        name=jsonObject.getString("name");
+                        phone=jsonObject.getString("phone");
+                        latitude=jsonObject.getString("latitude");
+                        longitude=jsonObject.getString("longitude");
                         email1=jsonObject.getString("email");
                         id=String.valueOf(jsonObject.getInt("id"));
                         sessionid=jsonObject.getString("session_id");
@@ -298,6 +306,7 @@ public class LoginActivityG extends AppCompatActivity {
                         sid3=String.valueOf(data6.getInt("id"));
                         service3=data6.getString("service_type");
                         sessionManager1.putapidata(id,email1,sessionid,sid1,service1,sid2,service2,sid3,service3,vid1,vehicle1,vid2,vehicle2,vid3,vehicle3);
+                        sessionManager1.setprofile(name,phone,email1,latitude,longitude);
                        // Toast.makeText(LoginActivityG.this, email1+id+sessionid+array+array1, Toast.LENGTH_SHORT).show();
 
                     }
@@ -306,6 +315,7 @@ public class LoginActivityG extends AppCompatActivity {
                     }
                     Intent i=new Intent(LoginActivityG.this,Main2Activity.class);
                     startActivity(i);
+                    finish();
                 }else{
                     Toast.makeText(LoginActivityG.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                 }

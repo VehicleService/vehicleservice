@@ -24,6 +24,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     Intent intent;
@@ -105,7 +107,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        if(data[2].equalsIgnoreCase("request")) {
+        if(data[2].equalsIgnoreCase("requested")) {
             handledataMessage(jsonObject);
             PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,0);
                 builder.setContentIntent(pendingIntent)
@@ -121,12 +123,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("send","success");
         }
         else {
-            if(data[2].equalsIgnoreCase("confirm")){
+            if(data[2].equalsIgnoreCase("confirmed")){
             Intent newone=new Intent(this,PolylineActivity.class);
             PendingIntent pendingIntent=PendingIntent.getActivity(this,0,newone,0);
-
+            Log.d("send","yes");
             builder.setContentIntent(pendingIntent).setContentTitle("User");
 
+            SessionManager sessionManager=new SessionManager(getApplicationContext());
+                HashMap<String,String> data=new HashMap<>();
+                data=sessionManager.getcost();
+                sessionManager.setcost("true",data.get("cost"),data.get("garageid"));
 //                .setContentIntent(resultPendingIntent)
 //                .setSound(alarmSound)
 //                .setStyle(inboxStyle)

@@ -71,6 +71,7 @@ public class BillActivity extends AppCompatActivity {
         agree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sessionManager.setcost("false",nearbygarages.getVisitcharge(),nearbygarages.getId());
                 uploaddata();
 
 
@@ -91,12 +92,15 @@ public class BillActivity extends AppCompatActivity {
     private void uploaddata() {
         Log.d("request",nearbygarages.getId()+user.get("id")+ids.get("vehicle_id")+ids.get("service_id")
                 +nearbygarages.getLongitude()+nearbygarages.getLatitude());
-       String Url=appendToUrl(upload,getParams());
-        StringRequest stringRequest=new StringRequest(Request.Method.GET,Url, new Response.Listener<String>() {
+       //String Url=appendToUrl(upload,getParams());
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,upload, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Log.d("data",response);
+                Intent i=new Intent(BillActivity.this,MainActivity.class);
+                i.putExtra("Details",garagelist);
+                startActivity(i);
               //  Toast.makeText(BillActivity.this, response, Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
@@ -106,51 +110,49 @@ public class BillActivity extends AppCompatActivity {
                 Log.d("error",""+error.getMessage());
                 Toast.makeText(BillActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        }){ public HashMap<String, String> getParams() {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("garage_id",nearbygarages.getId());
+            params.put("user_id",user.get("id"));
+            params.put("vehicle_id",ids.get("vehicle_id"));
+            params.put("service_id",ids.get("service_id"));
+            params.put("notification_type_id",String.valueOf(1));
+            params.put("latitude",nearbygarages.getLatitude());
+            params.put("longitude",nearbygarages.getLongitude());
+            return params;
+        }};
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
-        Intent i=new Intent(BillActivity.this,MainActivity.class);
-        i.putExtra("Details",garagelist);
-        startActivity(i);
-    }
-    public HashMap<String, String> getParams() {
-        HashMap<String, String> params = new HashMap<>();
-        params.put("garage_id",nearbygarages.getId());
-        params.put("user_id",user.get("id"));
-        params.put("vehicle_id",ids.get("vehicle_id"));
-        params.put("service_id",ids.get("service_id"));
-        params.put("notification_type_id",String.valueOf(1));
-        params.put("latitude",nearbygarages.getLatitude());
-        params.put("longitude",nearbygarages.getLongitude());
-        return params;
+
     }
 
 
 
-    public static String appendToUrl(String url, HashMap<String, String> parameters) {
-        try {
-            URI uri = new URI(url);
-            String query = uri.getQuery();
-            StringBuilder builder = new StringBuilder();
 
-            if (query != null)
-                builder.append(query);
-
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                String keyValueParam = entry.getKey() + "=" + entry.getValue();
-                if (!builder.toString().isEmpty())
-                    builder.append("&");
-
-                builder.append(keyValueParam);
-            }
-
-            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
-            return newUri.toString();
-
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return url;
-    }
+//    public static String appendToUrl(String url, HashMap<String, String> parameters) {
+//        try {
+//            URI uri = new URI(url);
+//            String query = uri.getQuery();
+//            StringBuilder builder = new StringBuilder();
+//
+//            if (query != null)
+//                builder.append(query);
+//
+//            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+//                String keyValueParam = entry.getKey() + "=" + entry.getValue();
+//                if (!builder.toString().isEmpty())
+//                    builder.append("&");
+//
+//                builder.append(keyValueParam);
+//            }
+//
+//            URI newUri = new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), builder.toString(), uri.getFragment());
+//            return newUri.toString();
+//
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
+//        return url;
+//    }
 }

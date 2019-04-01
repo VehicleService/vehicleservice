@@ -29,6 +29,7 @@ public class DetailsG extends Fragment {
     public ViewPager viewPager;
     public TabLayout tabLayout;
 
+
     public DetailsG() {
         // Required empty public constructor
     }

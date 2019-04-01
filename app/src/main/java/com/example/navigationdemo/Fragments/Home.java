@@ -4,6 +4,7 @@ package com.example.navigationdemo.Fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -129,69 +130,69 @@ public class Home extends Fragment implements OnMapReadyCallback {
        // Log.d("size", String.valueOf(nearbygarages.size()));
 
         //Storing data in database
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        reference=firebaseDatabase.getReference("UserDetails");
-        referencev=firebaseDatabase.getReference("VehicleType");
-        references=firebaseDatabase.getReference("ServiceType");
+//        firebaseDatabase=FirebaseDatabase.getInstance();
+//        reference=firebaseDatabase.getReference("UserDetails");
+//        referencev=firebaseDatabase.getReference("VehicleType");
+//        references=firebaseDatabase.getReference("ServiceType");
         sessionManager=new SessionManager(getActivity());
         data=sessionManager.getData();
         key=data.get("Key");
         vkey=data.get("Vkey");
         skey=data.get("Skey");
-        garageref=firebaseDatabase.getReference("GarageDetails");
-        referencev.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    if(snapshot.child("type").getValue().toString().equalsIgnoreCase("Both")){
-                        vgkey=snapshot.getKey();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        references.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    if(snapshot.child("type").getValue().toString().equalsIgnoreCase("Both")){
-                        sgkey=snapshot.getKey();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        garageref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data:dataSnapshot.getChildren()) {
-                    if ((data.child("VehicleTypeId").getValue().toString().equalsIgnoreCase(vkey) || data.child("VehicleTypeId").getValue().toString().equalsIgnoreCase(vgkey)) &&
-                            (data.child("ServiceTypeId").getValue().toString().equalsIgnoreCase(skey) || data.child("ServiceTypeId").getValue().toString().equalsIgnoreCase(sgkey))) {
-
-
-                        Double lat = (Double) data.child("lat").getValue();
-                        Double lon = (Double) data.child("lon").getValue();
-                        Log.d("Loc", "lat" + lat + "Lon" + lon);
-                        location = new LatLng(lat, lon);
-                       // markers.add(location);
-                      //  Log.d("loc", "" + markers.get(0));
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        garageref=firebaseDatabase.getReference("GarageDetails");
+//        referencev.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+//                    if(snapshot.child("type").getValue().toString().equalsIgnoreCase("Both")){
+//                        vgkey=snapshot.getKey();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//        references.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+//                    if(snapshot.child("type").getValue().toString().equalsIgnoreCase("Both")){
+//                        sgkey=snapshot.getKey();
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//        garageref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot data:dataSnapshot.getChildren()) {
+//                    if ((data.child("VehicleTypeId").getValue().toString().equalsIgnoreCase(vkey) || data.child("VehicleTypeId").getValue().toString().equalsIgnoreCase(vgkey)) &&
+//                            (data.child("ServiceTypeId").getValue().toString().equalsIgnoreCase(skey) || data.child("ServiceTypeId").getValue().toString().equalsIgnoreCase(sgkey))) {
+//
+//
+//                        Double lat = (Double) data.child("lat").getValue();
+//                        Double lon = (Double) data.child("lon").getValue();
+//                        Log.d("Loc", "lat" + lat + "Lon" + lon);
+//                        location = new LatLng(lat, lon);
+//                       // markers.add(location);
+//                      //  Log.d("loc", "" + markers.get(0));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
       //  latlan=(EditText) v.findViewById(R.id.txtLatLan);
@@ -433,19 +434,6 @@ public class Home extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (nearbygarages!=null) {
-            for (int i = 0; i < nearbygarages.size(); i++) {
-                Double lat = Double.valueOf(nearbygarages.get(i).getLatitude());
-                Double lon = Double.valueOf(nearbygarages.get(i).getLongitude());
-                Log.d("nearby", lat + "" + lon);
-
-
-                location = new LatLng(lat, lon);
-                markers.add(location);
-                mMap.addMarker(new MarkerOptions().position(location).title("place" + i));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-            }
-        }
 
 //            double lat=CurrentLocation.getLatitude();
 //            double lan=CurrentLocation.getLongitude();
@@ -458,29 +446,63 @@ public class Home extends Fragment implements OnMapReadyCallback {
                 == PackageManager.PERMISSION_GRANTED) {
 
             setUpMap();
+            if (nearbygarages!=null) {
+                for (int i = 0; i < nearbygarages.size(); i++) {
+                    Double lat = Double.valueOf(nearbygarages.get(i).getLatitude());
+                    Double lon = Double.valueOf(nearbygarages.get(i).getLongitude());
+                    Log.d("nearby", lat + "" + lon);
+
+
+                    location = new LatLng(lat, lon);
+                    markers.add(location);
+                    mMap.addMarker(new MarkerOptions().position(location).title("place" + i));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                }
+            }
+
 
         } else {
 
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     MY_PERMISSIONS_REQUEST_LOCATION);
 
         }
 
 
+
     }
+    @SuppressLint("MissingPermission")
     private void setUpMap() {
         mMap.setMyLocationEnabled(true);
+        Log.d("Enabled","true");
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION:
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     setUpMap();
+                    Log.d("Trace","done");
+                    if (nearbygarages!=null) {
+                        for (int i = 0; i < nearbygarages.size(); i++) {
+                            Double lat = Double.valueOf(nearbygarages.get(i).getLatitude());
+                            Double lon = Double.valueOf(nearbygarages.get(i).getLongitude());
+                            Log.d("nearby", lat + "" + lon);
+
+
+                            location = new LatLng(lat, lon);
+                            markers.add(location);
+                            mMap.addMarker(new MarkerOptions().position(location).title("place" + i));
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+                        }
+                        Log.d("reach","yes");
+                    }
+
                 }
         }
     }
