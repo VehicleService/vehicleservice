@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         else if (id == R.id.nav_feedback) {
-            setToolbarTitle("Feedback");
+            setToolbarTitle("Payment");
             loadHomeFragment(3);
         }
 

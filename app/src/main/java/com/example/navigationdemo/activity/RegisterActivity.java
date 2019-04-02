@@ -98,10 +98,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         setTitle("Register");
        // instance=FirebaseDatabase.getInstance();
-        city=instance.getReference("City");
-        state=instance.getReference("State");
-        country=instance.getReference("Country");
-        area=instance.getReference("Area");
+//        city=instance.getReference("City");
+//        state=instance.getReference("State");
+//        country=instance.getReference("Country");
+//        area=instance.getReference("Area");
        // reference=instance.getReference("UserDetails");
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

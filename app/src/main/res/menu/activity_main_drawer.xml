@@ -20,8 +20,8 @@
             android:title="EditProfile" />
         <item
             android:id="@+id/nav_feedback"
-            android:icon="@drawable/ic_menu_send"
-            android:title="Feedback" />
+            android:icon="@drawable/baseline_credit_card_black_18dp"
+            android:title="Payment" />
 
         <item
             android:id="@+id/nav_logout"

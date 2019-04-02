@@ -7,12 +7,14 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +29,8 @@ import com.example.navigationdemo.Importantclasses.MySingleton;
 import com.example.navigationdemo.R;
 import com.example.navigationdemo.Utils.SessionManager;
 import com.example.navigationdemo.activity.BillActivity;
+import com.example.navigationdemo.activity.CommentActivity;
+import com.example.navigationdemo.activity.LoginActivity;
 import com.example.navigationdemo.activity.MainActivity;
 import com.stripe.android.Stripe;
 import com.stripe.android.TokenCallback;
@@ -63,21 +67,23 @@ public class Feedback extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v=inflater.inflate(R.layout.fragment_feedback, container, false);
-        rt=(RatingBar)v.findViewById(R.id.ratingbar);
-        submit=(Button)v.findViewById(R.id.btnSubmit);
-        feedback=(RelativeLayout)v.findViewById(R.id.relativefeedback);
-        payment=(RelativeLayout)v.findViewById(R.id.payment);
-        pay=(Button)v.findViewById(R.id.btnpay);
-        comments=(EditText)v.findViewById(R.id.etxtcomments);
-        amount=(TextView)v.findViewById(R.id.etxtamount);
-        cardInputWidget=(CardInputWidget)v.findViewById(R.id.card_input_widget);
+        View v = inflater.inflate(R.layout.fragment_feedback, container, false);
+//        rt = (RatingBar) v.findViewById(R.id.ratingbar);
 
-        sessionManager=new SessionManager(getContext());
-        data=sessionManager.getcost();
-        id=sessionManager.getapidata();
-        if (data.get("coststatus").equalsIgnoreCase("true")){
-        amount.setText(data.get("cost"));}
+//        submit = (Button) v.findViewById(R.id.btnSubmit);
+        feedback = (RelativeLayout) v.findViewById(R.id.relativefeedback);
+        payment = (RelativeLayout) v.findViewById(R.id.payment);
+        pay = (Button) v.findViewById(R.id.btnpay);
+//        comments = (EditText) v.findViewById(R.id.etxtcomments);
+        amount = (TextView) v.findViewById(R.id.etxtamount);
+        cardInputWidget = (CardInputWidget) v.findViewById(R.id.card_input_widget);
+
+        sessionManager = new SessionManager(getContext());
+        data = sessionManager.getcost();
+        id = sessionManager.getapidata();
+        //if (data.get("coststatus").equalsIgnoreCase("true")){
+        amount.setText(data.get("cost"));
+    //}
         pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,16 +122,16 @@ public class Feedback extends Fragment {
 
 
 
-        LayerDrawable stars=(LayerDrawable)rt.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW,PorterDuff.Mode.SRC_ATOP);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView rate=(TextView)feedback.findViewById(R.id.txtrating);
-                rate.setText("Your Ratings:"+String.valueOf(rt.getRating()));
-               // Toast.makeText(getActivity(), ""+comments.getText().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        LayerDrawable stars=(LayerDrawable)rt.getProgressDrawable();
+//        stars.getDrawable(2).setColorFilter(Color.YELLOW,PorterDuff.Mode.SRC_ATOP);
+//        submit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TextView rate=(TextView)feedback.findViewById(R.id.txtrating);
+//                rate.setText("Your Ratings:"+String.valueOf(rt.getRating()));
+//               // Toast.makeText(getActivity(), ""+comments.getText().toString(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
         return v;
     }
 
@@ -137,6 +143,19 @@ public class Feedback extends Fragment {
             public void onResponse(String response) {
 
                 Log.d("data",response+"done");
+                Intent i=new Intent(getActivity(),CommentActivity.class);
+                startActivity(i);
+//                AlertDialog.Builder alert=new AlertDialog.Builder(getActivity());
+//                alert.setTitle("Feedback");
+//                alert.setMessage("Comments");
+//                final EditText input=new EditText(getActivity());
+//                LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+//                input.setLayoutParams(params);
+//                RatingBar ratingBar=new RatingBar(getActivity());
+//                ratingBar.setLayoutParams(params);
+//                alert.setView(ratingBar);
+//              //  alert.setView(input);
+//                alert.show();
 
                 //  Toast.makeText(BillActivity.this, response, Toast.LENGTH_SHORT).show();
             }
@@ -147,6 +166,7 @@ public class Feedback extends Fragment {
                 Log.d("error",""+error.getMessage());
                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
         }){ public HashMap<String, String> getParams() {
             HashMap<String, String> params = new HashMap<>();
             params.put("garage_id",data.get("garageid"));

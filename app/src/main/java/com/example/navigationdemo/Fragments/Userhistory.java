@@ -84,17 +84,17 @@ public class Userhistory extends Fragment {
                         Log.d("data",data.toString());
                         JSONObject object=data.getJSONObject(0);
                         Historyresponse recentdata=new Historyresponse(String.valueOf(object.getInt("id")),String.valueOf("user_id"),
-                                object.getString("vehicle_type"),object.getString("service_type"),object.getString("user_name"),
-                                object.getString("user_phone"),object.getString("notification_type"),object.getString("created_at"),
-                                object.getString("latitude"),object.getString("longitude"));
+                                object.getString("vehicle_type"),object.getString("service_type"),object.getString("garage_name"),
+                                object.getString("garage_phone"),object.getString("notification_type"),object.getString("created_at"),
+                                "","");
                         for (int i=1;i<data.length();i++){
                             JSONObject jsonObject=data.getJSONObject(i);
                             historyresponse=new Historyresponse(String.valueOf(jsonObject.getInt("id")),String.valueOf("user_id"),
-                                    jsonObject.getString("vehicle_type"),jsonObject.getString("service_type"),jsonObject.getString("user_name"),
-                                    jsonObject.getString("user_phone"),jsonObject.getString("notification_type"),jsonObject.getString("created_at"),
-                                    jsonObject.getString("latitude"),jsonObject.getString("longitude"));
+                                    jsonObject.getString("vehicle_type"),jsonObject.getString("service_type"),jsonObject.getString("garage_name"),
+                                    jsonObject.getString("garage_phone"),jsonObject.getString("notification_type"),jsonObject.getString("created_at"),
+                                    "","");
                             historydata.add(historyresponse);
-                            UserHistory h=new UserHistory("Vehicle Service Booking",historyresponse.getUsername(),historyresponse.getCreatedAt(),historyresponse.getServicetype()+"of"+
+                            UserHistory h=new UserHistory("Vehicle Service Booking",historyresponse.getCreatedAt(),historyresponse.getUsername(),historyresponse.getServicetype()+" service of "+
                                     historyresponse.getVehicletype()+"is completed",historyresponse.getPhone(),String.valueOf(historyresponse.getLatitude()),String.valueOf(historyresponse.getLongitude()));
                             history.add(h);
 

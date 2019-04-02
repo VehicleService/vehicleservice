@@ -39,7 +39,14 @@ public class BillActivity extends AppCompatActivity {
     ArrayList<Nearbygarages> garagelist;
     HashMap<String,String> ids=new HashMap<>();
     HashMap<String,String> user=new HashMap<>();
+
+
     String upload="http://cas.mindhackers.org/vehicle-service-booking/public/api/notification";
+
+    HashMap<String,String> location;
+    String userlat,userlon;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +61,20 @@ public class BillActivity extends AppCompatActivity {
         sessionManager=new SessionManager(BillActivity.this);
         ids=sessionManager.getserveh();
         user=sessionManager.getapidata();
+
+        if (sessionManager.getService().containsValue("emergency")){
+            location=sessionManager.getLocations();
+            userlat=location.get("userlat");
+            userlon=location.get("userlon");
+        }
+        else
+        {
+            location=sessionManager.getprofile();
+            userlat=location.get("lat");
+            userlon=location.get("lon");
+        }
+
+
          nearbygarages= (Nearbygarages) getIntent().getSerializableExtra("details");
         garagelist= (ArrayList<Nearbygarages>) getIntent().getSerializableExtra("Details");
         Geocoder geocoder=new Geocoder(BillActivity.this,Locale.getDefault());
@@ -117,8 +138,8 @@ public class BillActivity extends AppCompatActivity {
             params.put("vehicle_id",ids.get("vehicle_id"));
             params.put("service_id",ids.get("service_id"));
             params.put("notification_type_id",String.valueOf(1));
-            params.put("latitude",nearbygarages.getLatitude());
-            params.put("longitude",nearbygarages.getLongitude());
+            params.put("latitude",userlat);
+            params.put("longitude",userlon);
             return params;
         }};
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(10000,

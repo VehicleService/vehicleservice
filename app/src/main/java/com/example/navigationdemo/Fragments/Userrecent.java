@@ -86,11 +86,11 @@ public class Userrecent extends Fragment {
                         Log.d("data",data.toString());
                         JSONObject object=data.getJSONObject(0);
                         Historyresponse historyresponse=new Historyresponse(String.valueOf(object.getInt("id")),String.valueOf("user_id"),
-                                object.getString("vehicle_type"),object.getString("service_type"),object.getString("user_name"),
-                                object.getString("user_phone"),object.getString("notification_type"),object.getString("created_at"),
-                                object.getString("latitude"),object.getString("longitude"));
-                        UserHistory h=new UserHistory("Vehicle Service Booking",historyresponse.getUsername(),historyresponse.getCreatedAt(),historyresponse.getServicetype()+"of"+
-                                historyresponse.getVehicletype()+"is completed",historyresponse.getPhone(),String.valueOf(historyresponse.getLatitude()),String.valueOf(historyresponse.getLongitude()));
+                                object.getString("vehicle_type"),object.getString("service_type"),object.getString("garage_name"),
+                                object.getString("garage_phone"),object.getString("notification_type"),object.getString("created_at"),
+                                "","");
+                        UserHistory h=new UserHistory("Vehicle Service Booking",historyresponse.getCreatedAt(),historyresponse.getUsername(),historyresponse.getServicetype()+" service of "+
+                                historyresponse.getVehicletype()+"is requested",historyresponse.getPhone(),String.valueOf(historyresponse.getLatitude()),String.valueOf(historyresponse.getLongitude()));
                         history.add(h);
 //                        for (int i=1;i<data.length();i++){
 //                            JSONObject jsonObject=data.getJSONObject(i);
