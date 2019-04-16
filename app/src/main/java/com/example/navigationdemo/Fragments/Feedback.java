@@ -100,6 +100,7 @@ public class Feedback extends Fragment {
                     public void onError(Exception error) {
                         Log.d("Card",error.getMessage());
                         Toast.makeText(getActivity(), error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Payment Failed", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -108,7 +109,7 @@ public class Feedback extends Fragment {
                         token1=token.getId();
 
                         Log.d("Token",token.getId()+"Currency"+card.getCurrency());
-                        Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Payment Completed", Toast.LENGTH_SHORT).show();
                         uploadData();
                     }
                 });

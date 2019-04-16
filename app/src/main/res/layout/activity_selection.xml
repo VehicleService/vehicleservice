@@ -26,13 +26,17 @@
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:layout_marginLeft="10dp"
+        android:checkedButton="@id/twobtn"
         android:layout_marginTop="20dp">
         <RadioButton
+            android:id="@+id/twobtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="TwoWheeler"
             />
         <RadioButton
+            android:id="@+id/fourbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -57,13 +61,17 @@
         android:layout_below="@id/txtServiceType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:checkedButton="@id/regularbtn"
         android:layout_marginTop="20dp">
         <RadioButton
+            android:id="@+id/regularbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="Regular"/>
 
         <RadioButton
+            android:id="@+id/emergencybtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

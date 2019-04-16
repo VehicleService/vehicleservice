@@ -94,6 +94,10 @@ public class Exit extends Fragment {
             @Override
             public void onResponse(String response) {
                 Log.d("response",response);
+                if (response.equalsIgnoreCase("sucess")){
+                Intent i=new Intent(getActivity(),LoginActivityG.class);
+                startActivity(i);
+                }
              //   Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
             }

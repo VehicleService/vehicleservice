@@ -58,7 +58,7 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:textColor="#000000"
-        android:layout_below="@+id/etxtPhoneNumber"
+        android:layout_below="@+id/gumastano"
         android:layout_marginTop="20dp"
         android:drawableLeft="@drawable/baseline_lock_black_18dp"
         android:layout_centerHorizontal="true"
@@ -89,16 +89,17 @@
         android:layout_height="wrap_content"
         android:width="300dp"
         android:height="50dp"
-        android:layout_below="@+id/etxtConfirmpassword"
+        android:layout_below="@+id/etxtPhoneNumber"
         android:id="@+id/gumastano"
         android:gravity="center"
         android:textColor="#000000"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:background="@color/field_back"
+        android:inputType="number"
         android:ems="10"
-        android:drawableLeft="@drawable/baseline_business_black_18dp"
-        android:hint="Gumasta License No."
+        android:drawableLeft="@drawable/baseline_perm_identity_black_18dp"
+        android:hint="Aadhar Card Number"
         />
 
     <Button
@@ -107,7 +108,7 @@
         android:layout_width="120dp"
 
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gumastano"
+        android:layout_below="@+id/etxtConfirmpassword"
         android:layout_marginTop="30dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"

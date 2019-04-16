@@ -6,11 +6,14 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -91,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
 //        }
         sessionManager = new SessionManager(RegisterActivity.this);
         instanceID =  sessionManager.getId();
-
+        Log.d("instanceid",instanceID);
 
 
 
@@ -135,6 +138,36 @@ public class RegisterActivity extends AppCompatActivity {
                     Address.setText("");
                 }
                 else{
+                    userName = Username.getText().toString();
+                    pass = Password.getText().toString();
+                    email = Email.getText().toString();
+                    phone = PhoneNumber.getText().toString();
+
+                    AlertDialog.Builder alert=new AlertDialog.Builder(RegisterActivity.this);
+                    alert.setTitle("Terms And Conditions");
+                    alert.setMessage("This application is going to use your current location as well as your address.");
+                    final CheckBox c=new CheckBox(RegisterActivity.this);
+                    c.setText("I Accept Terms And Conditions");
+                    LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+                    params.setMargins(20,20,20,20);
+                    c.setLayoutParams(params);
+                    alert.setView(c);
+                    alert.show();
+                    c.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (c.isChecked()){
+                                uploadData();
+
+                               // Toast.makeText(RegisterActivity.this, "checked", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(RegisterActivity.this, "unchecked", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
 //                    reference.addValueEventListener(new ValueEventListener() {
 //                        @Override
 //                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -175,62 +208,61 @@ public class RegisterActivity extends AppCompatActivity {
 
                     latitude = addresses.get(0).getLatitude();
                     longitude = addresses.get(0).getLongitude();
-
                     final String areaname1=addresses.get(0).getAddressLine(0);
                     final String city1=addresses.get(0).getLocality();
                     final String state1=addresses.get(0).getAdminArea();
                     final String country1=addresses.get(0).getCountryName();
 
 //           Toast.makeText(RegisterActivity.this, "Latitude"+location.getLatitude()+"Longtitude"+location.getLongitude(), Toast.LENGTH_SHORT).show();
-                    city.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for(final DataSnapshot snapshot:dataSnapshot.getChildren()){
-                                if(snapshot.child("city").getValue().toString().equalsIgnoreCase(city1)){
-                                    cityid=snapshot.getKey();
-                                    state.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            for(DataSnapshot snapshot1:dataSnapshot.getChildren()){
-                                                if(snapshot1.child("state").getValue().toString().equalsIgnoreCase(state1)){
-                                                    stateid=snapshot1.getKey();
-                                                    country.addValueEventListener(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                            for(DataSnapshot snapshot2:dataSnapshot.getChildren()){
-                                                                if(snapshot2.child("country").getValue().toString().equalsIgnoreCase(country1)){
-                                                                    countryid=snapshot2.getKey();
-                                                                     Areakey=area.push().getKey();
-                                                                    Area a=new Area(Address.getText().toString(),areaname1,cityid,stateid,countryid);
-                                                                    area.child(Areakey).setValue(a);
-                                                                }
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-                                }
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+//                    city.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            for(final DataSnapshot snapshot:dataSnapshot.getChildren()){
+//                                if(snapshot.child("city").getValue().toString().equalsIgnoreCase(city1)){
+//                                    cityid=snapshot.getKey();
+//                                    state.addValueEventListener(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                            for(DataSnapshot snapshot1:dataSnapshot.getChildren()){
+//                                                if(snapshot1.child("state").getValue().toString().equalsIgnoreCase(state1)){
+//                                                    stateid=snapshot1.getKey();
+//                                                    country.addValueEventListener(new ValueEventListener() {
+//                                                        @Override
+//                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                                            for(DataSnapshot snapshot2:dataSnapshot.getChildren()){
+//                                                                if(snapshot2.child("country").getValue().toString().equalsIgnoreCase(country1)){
+//                                                                    countryid=snapshot2.getKey();
+//                                                                     Areakey=area.push().getKey();
+//                                                                    Area a=new Area(Address.getText().toString(),areaname1,cityid,stateid,countryid);
+//                                                                    area.child(Areakey).setValue(a);
+//                                                                }
+//                                                            }
+//                                                        }
+//
+//                                                        @Override
+//                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                                        }
+//                                                    });
+//                                                }
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                                        }
+//                                    });
+//                                }
+//
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
                     return true;
                 }
                 else {
@@ -312,6 +344,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void uploadData(){
+        Log.d("data",userName+email+phone+pass+instanceID+latitude+longitude);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, urlUpload, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -320,7 +353,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
                     sessionManager.putPerAddress(String.valueOf(latitude),String.valueOf(longitude));
                     Intent i=new Intent(RegisterActivity.this,LoginActivity.class);
                     startActivity(i);

@@ -204,8 +204,8 @@ public class RegisterActivityG extends AppCompatActivity {
                         Confirmpassword.setError("Password Should Match With Above PassWord");
                         Password.setText("");
                     }
-                    else if(Gumastano.getText().toString().isEmpty()){
-                    Gumastano.setError("Enter Gumasta License No.");
+                    else if(Gumastano.getText().toString().length()!=12){
+                    Gumastano.setError("Enter Valid Aadhar Card Number");
                     Gumastano.setText("");
 
                 }
@@ -483,11 +483,11 @@ public class RegisterActivityG extends AppCompatActivity {
 
                 }
                 else if(response.equals("INVALID_GARAGE_NO")){
-                    Toast.makeText(RegisterActivityG.this, "Enter valid gumasta no", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivityG.this, "Enter Valid Aadhar Card Number", Toast.LENGTH_SHORT).show();
 
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(), response + "Registration successful!", Toast.LENGTH_LONG).show();
                     Intent i=new Intent(RegisterActivityG.this,LoginActivityG.class);
                     startActivity(i);
                 }
@@ -509,7 +509,7 @@ public class RegisterActivityG extends AppCompatActivity {
                 params.put("latitude",String.valueOf(lat));
                 params.put("longitude",String.valueOf(lan));
                 params.put("instance_id",instanceId);
-                params.put("garage_no",Gumastano.getText().toString());
+                params.put("garage_no","iaj1aXo3od80oGp4oAHy");
                 return params;
             }
         };

@@ -72,6 +72,7 @@ public class SelectionActivity extends AppCompatActivity {
 //        references = firebaseDatabase.getReference("ServiceType");
 //        reference = firebaseDatabase.getReference("UserDetails");
         sessionManager = new SessionManager(SelectionActivity.this);
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
